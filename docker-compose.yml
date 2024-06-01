@@ -91,6 +91,8 @@ services:
     ports:
       - "${MQTT_PORT}:1883"
       - "${MQTT_WEBSOCKET}:9001"
+    expose: 
+      - "1883"
     volumes:
       - ./mosquitto/config:/mosquitto/config
       - ./mosquitto/data:/mosquitto/data
@@ -102,3 +104,17 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
+  mqtt-subscriber:
+    build: ./mqtt-subscriber
+    container_name: ${PROJECT_NAME}-mqtt-subscriber
+    mem_limit: 512m
+    cpus: 1.0
+    restart: always
+    command: ["python3", "/app/script/mqtt_subscriber.py"]
+    volumes:
+      - ./mqtt-subscriber/script:/app/script
+    networks:
+      - network
+    depends_on:
+      - mqtt
