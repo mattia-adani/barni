@@ -1,0 +1,104 @@
+version: '3.9'
+
+networks:
+  network:
+    driver: bridge
+
+services:
+
+  db:
+    image: postgres:latest
+    container_name: ${PROJECT_NAME}-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+      TZ: ${TZ}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: ${PROJECT_NAME}-backend
+    mem_limit: 1024m
+    cpus: 2.0
+    ports:
+      - "${BACKEND_PORT}:8000"
+    volumes:
+      - ./backend:/app
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    networks:
+      - network
+    depends_on:
+      - db
+      - mqtt
+    environment:
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: db
+      DB_PORT: 5432
+      FRONTEND_URL: ${HOST}:${FRONTEND_PORT}
+      TZ: ${TZ}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  frontend:
+    build: ./frontend
+    restart: always
+    container_name: ${PROJECT_NAME}-frontend
+    mem_limit: 512m
+    cpus: 0.5
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    command: ["npm", "start"]
+    environment:
+      - REACT_APP_BACKEND_URL=${HOST}:${BACKEND_PORT}
+      - WDS_SOCKET_HOST=127.0.0.1 
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true 
+      - TZ=${TZ}
+    depends_on:
+      - backend
+    networks:
+      - network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  mqtt:
+    image: eclipse-mosquitto:latest
+    container_name: ${PROJECT_NAME}-mqtt
+    restart: always
+    ports:
+      - "${MQTT_PORT}:1883"
+      - "${MQTT_WEBSOCKET}:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - network
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_pub -h localhost -t 'test' -m 'message' -q 1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
