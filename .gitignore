@@ -1,0 +1,6 @@
+.env
+postgres-data
+mosquitto/log
+mosquitto/data
+*pycache*
+dbInitData.sql

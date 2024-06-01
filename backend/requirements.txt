@@ -1,0 +1,5 @@
+Django==3.2
+django-cors-headers
+mysqlclient
+psycopg2-binary
+paho-mqtt
