@@ -28,7 +28,6 @@ const Navbar = ({handleShow}) => {
               <li className="nav-item">
                 <NavLink
                   className={`nav-link ${!visible ? 'd-block' : 'd-none'}`}
-                  activeClassName="active"
                   to="/login"
                 >
                   Login
@@ -39,7 +38,6 @@ const Navbar = ({handleShow}) => {
                   {false && <li className="nav-item">
                     <NavLink
                       className="nav-link"
-                      activeClassName="active"
                       to="/dashboard"
                     >
                       <DictTag tag= {'Dashboard'}/>
@@ -49,7 +47,6 @@ const Navbar = ({handleShow}) => {
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
-                        activeClassName="active"
                         to="/dictionaries"
                       >
                         <DictTag tag= {'Dictionaries'}/>
@@ -60,7 +57,6 @@ const Navbar = ({handleShow}) => {
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
-                        activeClassName="active"
                         to="/users"
                       >
                         <DictTag tag= {'Users'}/>
@@ -71,7 +67,6 @@ const Navbar = ({handleShow}) => {
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
-                        activeClassName="active"
                         to="/test"
                       >
                         <DictTag tag= {'test'}/>
