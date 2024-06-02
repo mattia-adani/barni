@@ -48,3 +48,10 @@ CREATE TABLE dictionaries_entries (
     tag_name VARCHAR(128),
     PRIMARY KEY (dictionary_id, tag)
 );
+
+CREATE TABLE devices (
+    device VARCHAR(48),
+    property VARCHAR(128),
+    value VARCHAR(128),
+    PRIMARY KEY (device, property)
+);

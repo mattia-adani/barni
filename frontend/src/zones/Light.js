@@ -1,0 +1,83 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { getToken, getUser } from '../utils/common';
+import { Spinner } from 'react-bootstrap';
+
+const Light = props => {
+
+    const data = props.data;
+    const [isLoading, setLoading] = useState(false);
+
+    
+    function handleClick(action) {
+        
+        if (isLoading) return;
+
+        const backendUrl = process.env.REACT_APP_BACKEND_URL;
+        const api = '/zones/test/';
+        const token = getToken();
+        const user = getUser();
+
+        setLoading(true);
+        axios.post(
+          `${backendUrl}${api}`,
+          {
+            username:user.username,
+            device: data.device,
+            type: data.type,
+            action: action
+                
+          }, // object for POST request body
+          {
+            headers: {
+              'Authorization': `${token}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        ).then(
+          response => {
+            setLoading(false);
+            console.log(response);
+          }
+        ).catch(error => {
+          setLoading(false);
+          setError(error);
+          console.log(error);
+        }).finally(() => {
+          setLoading(false);
+        });
+      }
+    
+    
+    return <>
+      <div className="col-3">
+        <div 
+          className="panel border border-2 m-1"
+        >
+          <p>{data.name}</p>
+          {
+          data.type == 'Light' ?
+          <>
+          <div 
+            className="btn bg-secondary m-1"
+            onClick={() => {handleClick('on')}}
+          >
+          on
+          </div>                  
+          <div 
+          className="btn bg-secondary m-1"
+          onClick={() => {handleClick('off')}}
+          >
+        off
+        </div>
+        </>
+          : null
+          }
+        </div>            
+      </div>
+  </>
+
+}
+
+
+export default Light;
