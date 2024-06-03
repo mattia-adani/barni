@@ -11,6 +11,12 @@ dbconfig = {
 }
 
 
+MQTT_BROKER=os.environ.get('MQTT_BROKER')
+MQTT_PORT=int(os.environ.get('MQTT_PORT'))
+MQTT_TOPIC_FOR_ACTION=os.environ.get('MQTT_TOPIC_FOR_ACTION')
+MQTT_TOPIC_FOR_SYNC=os.environ.get('MQTT_TOPIC_FOR_SYNC')
+
+
 def debug(func):
     """Print the function signature and return value"""
     @functools.wraps(func)

@@ -43,13 +43,18 @@ services:
       - db
       - mqtt
     environment:
+      TZ: ${TZ}
       DB_DATABASE: ${DB_DATABASE}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: db
       DB_PORT: 5432
       FRONTEND_URL: ${HOST}:${FRONTEND_PORT}
-      TZ: ${TZ}
+      MQTT_BROKER: mqtt
+      MQTT_PORT: 1883
+      MQTT_TOPIC_FOR_ACTION: ${MQTT_TOPIC_FOR_ACTION}
+      MQTT_TOPIC_FOR_SYNC: ${MQTT_TOPIC_FOR_SYNC}
+
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 30s
@@ -90,9 +95,9 @@ services:
     restart: always
     ports:
       - "${MQTT_PORT}:1883"
-      - "${MQTT_WEBSOCKET}:9001"
+#      - "${MQTT_WEBSOCKET}:9001"
     expose: 
-      - "1883"
+      - "${MQTT_PORT}"
     volumes:
       - ./mosquitto/config:/mosquitto/config
       - ./mosquitto/data:/mosquitto/data
@@ -104,6 +109,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    environment:
+      TZ: ${TZ}
 
   mqtt-subscriber:
     build: ./mqtt-subscriber
@@ -118,6 +125,17 @@ services:
       - network
     depends_on:
       - mqtt
+      - db
+    environment:
+      TZ: ${TZ}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: db
+      DB_PORT: 5432
+      MQTT_BROKER: mqtt
+      MQTT_PORT: 1883
+      MQTT_TOPIC_FOR_SYNC: ${MQTT_TOPIC_FOR_SYNC}
 
   load-data:
     build: ./load-data

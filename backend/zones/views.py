@@ -10,6 +10,11 @@ from .utils import debug
 from .utils import DateTimeEncoder
 from .utils import get_auth_grant
 
+from .utils import MQTT_BROKER
+from .utils import MQTT_PORT
+from .utils import MQTT_TOPIC_FOR_ACTION
+#from .utils import MQTT_TOPIC_FOR_SYNC
+
 ###############################################################################################
 
 @csrf_exempt
@@ -71,14 +76,14 @@ def test(request, debug=False):
             # result = cursor.fetchall()
             
             # Publish message to MQTT broker
-            mqtt_broker = 'mqtt'  # Replace with your MQTT broker URL
-            mqtt_port = 1883  # Replace with your MQTT broker port
-            mqtt_topic = 'test/topic'  # Replace with your MQTT topic
+#            mqtt_broker = 'mqtt'  # Replace with your MQTT broker URL
+#            mqtt_port = 1883  # Replace with your MQTT broker port
+#            mqtt_topic = 'test/topic'  # Replace with your MQTT topic
             mqtt_message = json.dumps(body)  # Message to publish
 
             client = mqtt.Client()
-            client.connect(mqtt_broker, mqtt_port, 60)
-            client.publish(mqtt_topic, mqtt_message)
+            client.connect(MQTT_BROKER, MQTT_PORT, 60)
+            client.publish(MQTT_TOPIC_FOR_ACTION, mqtt_message)
             client.disconnect()
 
             response['status'] = 'OK'
