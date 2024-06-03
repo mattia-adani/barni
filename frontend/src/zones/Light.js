@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { getToken, getUser } from '../utils/common';
-import { Spinner } from 'react-bootstrap';
+//import { Spinner } from 'react-bootstrap';
 
 const Light = props => {
 
@@ -48,11 +48,15 @@ const Light = props => {
         });
       }
     
-    
-    return <>
+    var bg = "grey"
+    if (data.state === 'on') bg = 'yellow'
+    if (data.state === 'off') bg = 'white'
+
+  return <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
         <div 
-          className="panel border border-2 m-1"
+          className={`panel border border-2 m-1`}
+          style={{backgroundColor: bg}}
         >
           <p>{data.name}</p>
           {
