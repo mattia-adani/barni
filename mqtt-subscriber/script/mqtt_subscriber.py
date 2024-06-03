@@ -33,6 +33,8 @@ async def mqtt_listener():
                         try:
                             print(f'Received message: [{message.topic}] {message.payload.decode()}')
                             msg = json.loads(message.payload.decode())
+                            value = msg['value']
+                            if isinstance(value, bool): value=int(value)
 
                             query = f"""
                                     INSERT INTO devices 
@@ -40,7 +42,7 @@ async def mqtt_listener():
                                     VALUES
                                     ({repr(msg['device'])}, {repr(msg['property'])}, {repr(msg['value'])})
                                     ON CONFLICT (device, property) DO UPDATE
-                                    SET value = {repr(msg['value'])}
+                                    SET value = {repr(value)}
                                     """
 
                             cursor.execute(query)
