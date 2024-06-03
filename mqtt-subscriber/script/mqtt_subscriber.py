@@ -1,34 +1,65 @@
-import paho.mqtt.client as mqtt
+import os
+import asyncio
+import json
+from aiomqtt import Client, MqttError
+import psycopg2 as db
 
-def on_connect(*args):
-    print(args)
-#    print(args[0])
-#    print(args[1])
-#    print(args[2])
-#    print(args[3])
-#    print(args[4])
-    client = args[0]
-    rc = args[3]
-    print("Connected with result code "+str(rc))
-    client.subscribe("test/topic")  # Subscribe to the desired topic
-    print("Subscribed to test/topic")
+dbconfig = {
+    'host': os.environ.get('DB_HOST'),
+    'port': os.environ.get('DB_PORT'),
+    'user': os.environ.get('DB_USER'),
+    'password': os.environ.get('DB_PASSWORD'),
+    'database': os.environ.get('DB_DATABASE')
+}
 
-def on_message(*args):
-    print("ARGS", args)
-    client = args[0]
-    userdata = args[1]
-    msg = args[2]
-    print("Received message")  # Print the received message
-    print(msg.topic+" "+str(msg.payload))  # Print the received message
+# Define the MQTT broker details
+BROKER = os.environ.get('MQTT_BROKER')
+PORT = int(os.environ.get('MQTT_PORT'))
+MQTT_TOPIC_FOR_SYNC = os.environ.get('MQTT_TOPIC_FOR_SYNC')
 
-client = mqtt.Client(protocol=mqtt.MQTTv5, client_id="client_identifier")  # Use latest version
-#user = 'test'
-#password = 'password'
+async def mqtt_listener():
 
-#client.username_pw_set(user,password=password)
+    reconnect_interval = 1  # seconds
 
-client.on_connect = on_connect
-client.on_message = on_message
+    try:
+        connection = db.connect(**dbconfig)
+        cursor = connection.cursor()
 
-client.connect("mqtt", 1883, 60)  # Replace with your MQTT broker URL and port
-client.loop_forever()
+        while True:
+            try:
+                async with Client(BROKER, PORT) as client:
+                    await client.subscribe(MQTT_TOPIC_FOR_SYNC)                  
+                    async for message in client.messages:
+                        try:
+                            print(f'Received message: [{message.topic}] {message.payload.decode()}')
+                            msg = json.loads(message.payload.decode())
+
+                            query = f"""
+                                    INSERT INTO devices 
+                                    (device, property, value)
+                                    VALUES
+                                    ({repr(msg['device'])}, {repr(msg['property'])}, {repr(msg['value'])})
+                                    ON CONFLICT (device, property) DO UPDATE
+                                    SET value = {repr(msg['value'])}
+                                    """
+
+                            cursor.execute(query)
+                            connection.commit()
+
+                        except Exception as err:
+                            print(str(err))
+            except MqttError as error:
+                print(f'Error "{error}". Reconnecting in {reconnect_interval} seconds.')
+                await asyncio.sleep(reconnect_interval)
+    finally:
+        cursor.close()
+        connection.close()
+
+async def main():
+
+    await asyncio.gather(
+        mqtt_listener()
+    )
+
+if __name__ == '__main__':
+    asyncio.run(main())
