@@ -8,6 +8,7 @@ const Light = props => {
     const data = props.data;
     const [isLoading, setLoading] = useState(false);
     const [state, setState] = useState(data.state);
+    const [error, setError] = useState(null);
 
     
     function handleClick(action) {

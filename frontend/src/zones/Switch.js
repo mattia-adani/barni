@@ -8,7 +8,7 @@ const Switch = props => {
     const data = props.data;
     const [isLoading, setLoading] = useState(false);
     const [state, setState] = useState(data.state);
-
+    const [error, setError] = useState(null);
     
     function handleClick(action) {
         
@@ -62,7 +62,7 @@ const Switch = props => {
         >
           <p>{data.name}</p>
           {
-          data.type == 'Light' ?
+          data.type == 'Plug' ?
           <>
           <div 
             className="btn bg-secondary m-1"
