@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getToken, getUser } from '../utils/common';
 //import { Spinner } from 'react-bootstrap';
 
-const Light = props => {
+const Switch = props => {
 
     const data = props.data;
     const [isLoading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ const Light = props => {
     };
     
     var bg = "grey"
-    if (state === 'on') bg = 'yellow'
+    if (state === 'on') bg = 'cyan'
     if (state === 'off') bg = 'white'
 
   return <>
@@ -85,4 +85,4 @@ const Light = props => {
 
 }
 
-export default Light;
+export default Switch;
