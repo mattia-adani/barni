@@ -7,6 +7,7 @@ const Light = props => {
 
     const data = props.data;
     const [isLoading, setLoading] = useState(false);
+    const [state, setState] = useState(data.state);
 
     
     function handleClick(action) {
@@ -38,6 +39,7 @@ const Light = props => {
           response => {
             setLoading(false);
             console.log(response);
+            setState(action)
           }
         ).catch(error => {
           setLoading(false);
@@ -46,11 +48,11 @@ const Light = props => {
         }).finally(() => {
           setLoading(false);
         });
-      }
+    };
     
     var bg = "grey"
-    if (data.state === 'on') bg = 'yellow'
-    if (data.state === 'off') bg = 'white'
+    if (state === 'on') bg = 'yellow'
+    if (state === 'off') bg = 'white'
 
   return <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
