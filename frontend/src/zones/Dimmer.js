@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { getToken, getUser } from '../utils/common';
+import { getToken, getUser } from '../utils/common.js';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 const Dimmer = (props) => {
     const data = props.data;
     const [isLoading, setLoading] = useState(false);
     const [state, setState] = useState(data.state);
-    const [brightness, setBrightness] = useState(data.brightness);
+    const [brightness, setBrightness] = useState(parseInt(data.brightness * 100 / 255));
     const [error, setError] = useState(null);
 
     const handleClick = (action) => {
@@ -28,7 +30,7 @@ const Dimmer = (props) => {
                     device: data.device,
                     type: data.type,
                     action: action,
-                }, // object for POST request body
+                },
                 {
                     headers: {
                         Authorization: `${token}`,
@@ -40,6 +42,8 @@ const Dimmer = (props) => {
                 setLoading(false);
                 console.log(response);
                 setState(action);
+                if (action === 'on') setBrightness(100);
+                if (action === 'off') setBrightness(0);
             })
             .catch((error) => {
                 setLoading(false);
@@ -51,87 +55,99 @@ const Dimmer = (props) => {
             });
     };
 
-
     const handleSliderChange = (event, value) => {
-      if (isLoading) return;
+        if (isLoading) return;
 
-      const backendUrl = process.env.REACT_APP_BACKEND_URL;
-      const api = '/zones/test/';
-      const token = getToken();
-      const user = getUser();
+        const backendUrl = process.env.REACT_APP_BACKEND_URL;
+        const api = '/zones/test/';
+        const token = getToken();
+        const user = getUser();
 
-      setLoading(true);
-      axios
-          .post(
-              `${backendUrl}${api}`,
-              {
-                  username: user.username,
-                  device: data.device,
-                  type: data.type,
-                  action: 'brightness',
-                  value: value,
-              }, // object for POST request body
-              {
-                  headers: {
-                      Authorization: `${token}`,
-                      'Content-Type': 'application/json',
-                  },
-              }
-          )
-          .then((response) => {
-              setLoading(false);
-              console.log(response);
-              setBrightness(value);
-          })
-          .catch((error) => {
-              setLoading(false);
-              setError(error);
-              console.log(error);
-          })
-          .finally(() => {
-              setLoading(false);
-          });
-  };
-
+        setLoading(true);
+        axios
+            .post(
+                `${backendUrl}${api}`,
+                {
+                    username: user.username,
+                    device: data.device,
+                    type: data.type,
+                    action: 'brightness',
+                    value: parseInt(value * 255 / 100),
+                },
+                {
+                    headers: {
+                        Authorization: `${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+            .then((response) => {
+                setLoading(false);
+                console.log(response);
+                setBrightness(value);
+                if (value > 0) setState('on');
+                if (value === 0) setState('off');
+            })
+            .catch((error) => {
+                setLoading(false);
+                setError(error);
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
     var bg = 'grey';
-    if (state === 'on') bg = 'yellow';
-    if (state === 'off') bg = 'white';
+    if (state === 'on') bg = 'black';
+    if (state === 'off') bg = 'black';
+
+    var bc = 'black';
+    if (state === 'on') bc = 'yellow';
+    if (state === 'off') bc = 'black';
 
     return (
         <>
             <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
                 <div
-                    className={`panel border border-2 m-1`}
-                    style={{ backgroundColor: bg }}
+                    className={`panel m-1`}
+                    style={{ backgroundColor: bg, borderTop: '1em solid', borderBottom: '1em solid', borderColor: bc }}
                 >
-                    <p>{data.name}</p>
+                    <p style={{ textAlign: 'center', fontWeight: 'bold', color: 'white', fontSize:'1.5em' }} className='my-1'>{data.name}</p>
+                    {error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
                     <>
-                        <div
-                            className="btn bg-secondary m-1"
+                    <div 
+                        style={{ display: 'flex', justifyContent: 'center', gap: '1rem'}}
+                    >
+                        {(state == 'off') && <div
+                            className="btn m-1"
                             onClick={() => {
                                 handleClick('on');
                             }}
                         >
-                            on
-                        </div>
-                        <div
-                            className="btn bg-secondary m-1"
+                            <LightModeIcon style= {{color: 'white'}} />
+                        </div>}
+                        {(state == 'on') && <div
+                            className="btn m-1"
                             onClick={() => {
                                 handleClick('off');
                             }}
                         >
-                            off
-                        </div>
+                            <PowerSettingsNewIcon style= {{color: 'white'}}/>
+                        </div>}
+                    </div>
+                    {state === 'on' && (
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                             <Slider
-                                defaultValue={brightness}
+                                value={brightness}
                                 aria-label="Default"
                                 valueLabelDisplay="auto"
                                 onChangeCommitted={handleSliderChange}
                                 sx={{ width: '80%' }}
+                                style={{color: 'yellow'}}
                             />
                         </Box>
+                        )}
                     </>
                 </div>
             </div>
