@@ -50,8 +50,8 @@ services:
       DB_HOST: db
       DB_PORT: 5432
       FRONTEND_URL: ${HOST}:${FRONTEND_PORT}
-      MQTT_BROKER: mqtt
-      MQTT_PORT: 1883
+      MQTT_BROKER: ${MQTT_BROKER}
+      MQTT_PORT: ${MQTT_PORT}
       MQTT_TOPIC_FOR_ACTION: ${MQTT_TOPIC_FOR_ACTION}
       MQTT_TOPIC_FOR_SYNC: ${MQTT_TOPIC_FOR_SYNC}
 
@@ -133,8 +133,8 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: db
       DB_PORT: 5432
-      MQTT_BROKER: mqtt
-      MQTT_PORT: 1883
+      MQTT_BROKER: ${MQTT_BROKER}
+      MQTT_PORT: ${MQTT_PORT}
       MQTT_TOPIC_FOR_SYNC: ${MQTT_TOPIC_FOR_SYNC}
 
   load-data:
