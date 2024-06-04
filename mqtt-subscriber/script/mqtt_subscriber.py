@@ -40,11 +40,11 @@ async def mqtt_listener():
                                     INSERT INTO devices 
                                     (device, property, value)
                                     VALUES
-                                    ({repr(msg['device'])}, {repr(msg['property'])}, {repr(msg['value'])})
+                                    ({repr(msg['device'])}, {repr(msg['property'])}, '{value}')
                                     ON CONFLICT (device, property) DO UPDATE
                                     SET value = '{value}'
                                     """
-
+                            print(query)
                             cursor.execute(query)
                             connection.commit()
 
