@@ -42,7 +42,7 @@ async def mqtt_listener():
                                     VALUES
                                     ({repr(msg['device'])}, {repr(msg['property'])}, {repr(msg['value'])})
                                     ON CONFLICT (device, property) DO UPDATE
-                                    SET value = {repr(value)}
+                                    SET value = '{value}'
                                     """
 
                             cursor.execute(query)
