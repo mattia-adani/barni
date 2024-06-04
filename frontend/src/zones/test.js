@@ -4,6 +4,7 @@ import { getToken, getUser } from '../utils/common';
 import { Spinner } from 'react-bootstrap';
 import Light from './Light';
 import Switch from './Switch';
+import Dimmer from './Dimmer';
 
 
 const Device = props => {
@@ -12,6 +13,7 @@ const Device = props => {
 
   if (data.type == 'Light') return <Light data = {data}/>
   if (data.type == 'Plug') return <Switch data = {data}/>
+  if (data.type == 'Dimmer') return <Dimmer data = {data}/>
   
   return <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
