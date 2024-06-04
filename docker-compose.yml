@@ -94,10 +94,10 @@ services:
     container_name: ${PROJECT_NAME}-mqtt
     restart: always
     ports:
-      - "${MQTT_PORT}:1883"
+      - "${MQTT_PORT_EXPOSED}:1883"
 #      - "${MQTT_WEBSOCKET}:9001"
     expose: 
-      - "${MQTT_PORT}"
+      - "${MQTT_PORT_EXPOSED}"
     volumes:
       - ./mosquitto/config:/mosquitto/config
       - ./mosquitto/data:/mosquitto/data
