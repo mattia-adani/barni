@@ -21,6 +21,11 @@ RUN npm install react-select
 RUN npm install react-switch
 RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 
+RUN npm install @mui/material @emotion/react @emotion/styled
+RUN npm install @fontsource/roboto
+RUN npm install @mui/icons-material
+
+
 # Copy the entire application code to the container
 COPY . .
 

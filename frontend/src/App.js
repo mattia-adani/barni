@@ -75,7 +75,7 @@ if (authLoading && getToken()) {
               <Routes>
                 <Route path="*" element={<NotFound />} />
                 <Route element={<PublicRoutes />}>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<Login />} />
                   <Route path="/login" element={<Login />} />
                 </Route>
                 <Route element={<PrivateRoutes />}>
