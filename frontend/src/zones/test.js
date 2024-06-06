@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getToken, getUser } from '../utils/common';
 import { Spinner } from 'react-bootstrap';
-import Light from './Light';
+import Light from './Light2';
 import Switch from './Switch';
-import Dimmer from './Dimmer';
+//import Dimmer from './Dimmer';
 
 
 const Device = props => {
 
   const data = props.data;
 
-  if (data.type == 'Light') return <Light data = {data}/>
-  if (data.type == 'Plug') return <Switch data = {data}/>
-  if (data.type == 'Dimmer') return <Dimmer data = {data}/>
+  if (data.type == 'Light' || data.type == 'Dimmer') return <Light data = {data}/>
+  if (data.type == 'Plug') return <Light data = {data}/>
+  if (data.type == 'Impulse') return <Light data = {data}/>
   
   return <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
@@ -29,9 +29,9 @@ const Device = props => {
 const Group = props => {
 
   const data = props.data;
+  if (!(props.activeGroup == data.group)) return <></>; 
   return (
   <>
-  <div className="container">
     <div className="row">
       <div className="col-12">
         <div 
@@ -45,7 +45,6 @@ const Group = props => {
     <div className="row">
     {data.devices.map((device) => <Device key = {device.device} data = {device}/>)}
     </div>
-  </div>
   </>
   );
 
@@ -55,43 +54,8 @@ const Test = () => {
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [activeGroup, setActiveGroup] = useState('Lights');
 
-  function handleClick() {
-
-    const backendUrl = process.env.REACT_APP_BACKEND_URL;
-    const api = '/zones/test/';
-    const token = getToken();
-    const user = getUser();
-    console.log(user);
-    setLoading(true);
-    axios.post(
-      `${backendUrl}${api}`,
-      {
-        username:user.username,
-        device: 'StudioLight',
-        type: 'light',
-        action: 'on'
-            
-      }, // object for POST request body
-      {
-        headers: {
-          'Authorization': `${token}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    ).then(
-      response => {
-        setLoading(false);
-        console.log(response);
-      }
-    ).catch(error => {
-      setLoading(false);
-      setError(error);
-      console.log(error);
-    }).finally(() => {
-      setLoading(false);
-    });
-  }
 
   const fetchData = async () => {
 
@@ -153,7 +117,19 @@ const Test = () => {
   );
   */
 
-  const content = data.map ( (group) => <Group key = {group.group} data = {group}/>);
+  const content = 
+  <>
+  <div className='container'>
+    <div className='row'>  
+    {data.map ( (group) => <div 
+      className = 'btn m-1 border border-1 col-4 col-sm-3 col-md-2 col-lg-1' 
+      onClick = {() => {setActiveGroup(group.group)}}
+      style = {{backgroundColor: group.group == activeGroup ? 'black' : 'white', color: group.group == activeGroup ? 'white' : 'black' }}
+      >{group.group}</div> )}  
+    </div>
+    {data.map ( (group) => <Group key = {group.group} data = {group} activeGroup = {activeGroup}/>)}
+  </div>
+  </>;
 
   var loading = <><Spinner className = 'm-5' animation="border" variant="primary" /></>;
   
