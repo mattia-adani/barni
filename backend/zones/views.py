@@ -496,7 +496,7 @@ def all_devices(request, debug=False):
         devices = []
         try:
             body = json.loads(request.body.decode("utf-8"))
-            ROOM = body["zone"]
+
             if debug:
                 print(body)
 
