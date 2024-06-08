@@ -15,7 +15,7 @@ const Light = (props) => {
     const [isLoading, setLoading] = useState(false);
     const [state, setState] = useState(data.state);
     const [brightness, setBrightness] = useState(parseInt(data.hasOwnProperty('brightness') ? data.brightness * 100 / 255 : 100));
-    const [rgbwColor, setRgbwColor] = useState(data.hasOwnProperty('color') ? { red: data.color.red, blue: data.color.blue, green: data.color.green} : null);
+//    const [rgbwColor, setRgbwColor] = useState(data.hasOwnProperty('color') ? { red: data.color.red, blue: data.color.blue, green: data.color.green} : null);
 
     const [error, setError] = useState(null);
 
@@ -31,6 +31,7 @@ const Light = (props) => {
 
     const sync = () => {
 
+        console.log("syncing")
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
         const api = '/zones/test/';
         const token = getToken();
@@ -136,7 +137,7 @@ const Light = (props) => {
                 console.log(response);
                 setBrightness(value);
                 if (value > 0) setState('on');
-                if (value === 0) setState('off');
+                if (value === 0 && data.type !== 'RGBW') setState('off');
             })
             .catch((error) => {
                 setLoading(false);
@@ -177,7 +178,7 @@ const Light = (props) => {
                 setLoading(false);
                 console.log(response);
                 setState(action);
-                if (action === 'on') setBrightness(255);
+                if (action === 'on' && data.type !== 'RGBW') setBrightness(255);
                 if (action === 'off') setBrightness(0);
             })
             .catch((error) => {
@@ -190,9 +191,12 @@ const Light = (props) => {
             });
     };
 
-
-    useEffect(sync, []);
-
+    useEffect(() => {
+        sync();
+//        const intervalId = setInterval(sync, 2000);
+//        return () => clearInterval(intervalId);
+      }, []);
+    
     var bg = 'black';
     if (state === 'on') bg = 'black';
     if (state === 'off') bg = 'black';

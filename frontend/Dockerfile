@@ -2,6 +2,8 @@ FROM node:14
 
 WORKDIR /.
 
+RUN npm cache clean --force
+
 RUN npx create-react-app app
 
 WORKDIR /app/
@@ -28,5 +30,5 @@ RUN npm install @mui/icons-material
 # Copy the entire application code to the container
 COPY . .
 
-CMD ["npm", "start"]
+#CMD ["npm", "start"]
 

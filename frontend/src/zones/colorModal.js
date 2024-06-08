@@ -44,7 +44,7 @@ const Color = props => {
         value: [data.red, data.green, data.blue]
     };
 
-    console.log(request, data.hex, data.color_name)
+//    console.log(request, data.hex, data.color_name)
     
     props.setColorName(data.color_name)
     props.setColorHEX(data.hex)
@@ -204,7 +204,7 @@ export default function RGBWColorModal(props) {
   };
 
   useEffect(() => { fetchRGBColor() }, []);
-  useEffect(() => { fetchRGBColor() }, [currentRGB]);
+  //useEffect(() => { fetchRGBColor() }, [currentRGB]);
 
   useEffect(() => { fetchColors() }, []);
 
