@@ -25,7 +25,6 @@ RUN npm install @mui/material @emotion/react @emotion/styled
 RUN npm install @fontsource/roboto
 RUN npm install @mui/icons-material
 
-
 # Copy the entire application code to the container
 COPY . .
 

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { getToken, getUser } from '../utils/common';
 import { Spinner } from 'react-bootstrap';
 import Light from './Light2';
+import Impulse from './Impulse';
+
 import Switch from './Switch';
 //import Dimmer from './Dimmer';
 
@@ -12,8 +14,9 @@ const Device = props => {
   const data = props.data;
 
   if (data.type == 'Light' || data.type == 'Dimmer') return <Light data = {data}/>
+  if (data.type == 'RGBW') return <Light data = {data}/>
   if (data.type == 'Plug') return <Light data = {data}/>
-  if (data.type == 'Impulse') return <Light data = {data}/>
+  if (data.type == 'Impulse') return <Impulse data = {data}/>
   
   return <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
@@ -121,11 +124,13 @@ const Test = () => {
   <>
   <div className='container'>
     <div className='row'>  
-    {data.map ( (group) => <div 
-      className = 'btn m-1 border border-1 col-4 col-sm-3 col-md-2 col-lg-1' 
+    {data.map ( (group) => 
+      <><div className = 'col-4 col-sm-2 col-md-1 col-lg-1'>
+      <div 
+      className = 'btn m-1 border border-1' 
       onClick = {() => {setActiveGroup(group.group)}}
       style = {{backgroundColor: group.group == activeGroup ? 'black' : 'white', color: group.group == activeGroup ? 'white' : 'black' }}
-      >{group.group}</div> )}  
+      >{group.group}</div></div> </>)}  
     </div>
     {data.map ( (group) => <Group key = {group.group} data = {group} activeGroup = {activeGroup}/>)}
   </div>

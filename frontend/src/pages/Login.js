@@ -24,7 +24,7 @@ const Login = () => {
       { username: username.value, password: MD5(password.value).toString() }
     ).then(response => {
         setLoading(false);
-        console.log(response);
+        //console.log(response);
         setUserSession(response.data.key, response.data); 
         window.location.reload();    
     }).catch(error => {
