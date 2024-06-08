@@ -495,10 +495,10 @@ def all_devices(request, debug=False):
         response["data"] = []
         devices = []
         try:
-            body = json.loads(request.body.decode("utf-8"))
+#            body = json.loads(request.body.decode("utf-8"))
 
-            if debug:
-                print(body)
+#            if debug:
+#                print(body)
 
             query = f"""
                 SELECT device
