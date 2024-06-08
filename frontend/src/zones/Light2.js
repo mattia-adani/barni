@@ -7,15 +7,17 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import FlashOffIcon from '@mui/icons-material/FlashOff';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
+import RGBWColorModal from './colorModal';
+
 
 const Light = (props) => {
     const data = props.data;
     const [isLoading, setLoading] = useState(false);
     const [state, setState] = useState(data.state);
     const [brightness, setBrightness] = useState(parseInt(data.hasOwnProperty('brightness') ? data.brightness * 100 / 255 : 100));
-    const [error, setError] = useState(null);
+    const [rgbwColor, setRgbwColor] = useState(data.hasOwnProperty('color') ? { red: data.color.red, blue: data.color.blue, green: data.color.green} : null);
 
-    if(data.type == 'Impulse') console.log(data)
+    const [error, setError] = useState(null);
 
     var icon_on = <LightModeIcon style= {{color: 'white'}} />;
     var icon_off = <PowerSettingsNewIcon style= {{color: 'white'}}/>;
@@ -191,13 +193,13 @@ const Light = (props) => {
 
     useEffect(sync, []);
 
-    var bg = 'grey';
+    var bg = 'black';
     if (state === 'on') bg = 'black';
     if (state === 'off') bg = 'black';
 
     var bc = 'black';
     if (state === 'on') bc = color_on;
-    if (state === 'off') bc = 'black';
+    if (state === 'off') bc = 'grey';
 
     return (
         <>
@@ -212,7 +214,7 @@ const Light = (props) => {
                     <div 
                         style={{ display: 'flex', justifyContent: 'center', gap: '1rem'}}
                     >
-                        {(state == 'off' && data.type !== 'Impulse') && <div
+                        {(state == 'off') && <div
                             className="btn m-1"
                             onClick={() => {
                                 handleClick('on');
@@ -220,7 +222,7 @@ const Light = (props) => {
                         >
                             {icon_on}
                         </div>}
-                        {(state == 'on' || data.type == 'Impulse') && <div
+                        {(state == 'on') && <div
                             className="btn m-1"
                             onClick={() => {
                                 handleClick('off');
@@ -229,7 +231,7 @@ const Light = (props) => {
                             {icon_off}
                         </div>}
                     </div>
-                    {state === 'on' && data.hasOwnProperty('brightness') && (
+                    {state === 'on' && (data.type=== 'Dimmer' || data.type === 'RGBW') && (
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                             <Slider
                                 value={brightness}
@@ -241,6 +243,14 @@ const Light = (props) => {
                             />
                         </Box>
                         )}
+                    {state === 'on' && (data.type=== 'RGBW') && (
+                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+
+                            <RGBWColorModal device = {data}/>
+                            </Box>
+                        
+                        )}
+
                     </>
                 </div>
             </div>

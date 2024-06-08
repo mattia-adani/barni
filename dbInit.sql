@@ -55,3 +55,14 @@ CREATE TABLE devices (
     value VARCHAR(128),
     PRIMARY KEY (device, property)
 );
+
+CREATE TABLE colors (
+    hex CHAR(7) PRIMARY KEY,
+    color_name VARCHAR(48),
+    color_group VARCHAR(48),
+    red SMALLINT,
+    green SMALLINT,
+    blue SMALLINT,
+    luma FLOAT,
+    hue FLOAT
+);
