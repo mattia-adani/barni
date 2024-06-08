@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { getToken, getUser } from '../utils/common';
+import { getToken } from '../utils/common';
 import { Spinner } from 'react-bootstrap';
 import Light from './Light2';
 import Impulse from './Impulse';
+import Cover from './Cover';
 
-import Switch from './Switch';
+//import Switch from './Switch';
 //import Dimmer from './Dimmer';
 
 
@@ -13,10 +14,12 @@ const Device = props => {
 
   const data = props.data;
 
-  if (data.type == 'Light' || data.type == 'Dimmer') return <Light data = {data}/>
-  if (data.type == 'RGBW') return <Light data = {data}/>
-  if (data.type == 'Plug') return <Light data = {data}/>
-  if (data.type == 'Impulse') return <Impulse data = {data}/>
+  if (data.type === 'Light' || data.type === 'Dimmer') return <Light data = {data}/>
+  else if (data.type === 'RGBW') return <Light data = {data}/>
+  else if (data.type === 'Plug') return <Light data = {data}/>
+  else if (data.type === 'Impulse') return <Impulse data = {data}/>
+  else if (data.type === 'Blinds') return <Cover data = {data}/>
+  else if (data.type === 'Shutters') return <Cover data = {data}/>
   
   return <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
@@ -32,7 +35,7 @@ const Device = props => {
 const Group = props => {
 
   const data = props.data;
-  if (!(props.activeGroup == data.group)) return <></>; 
+  if (!(props.activeGroup === data.group)) return <></>; 
   return (
   <>
     <div className="row">
@@ -54,7 +57,7 @@ const Group = props => {
 }
 
 const Test = () => {
-  const [error, setError] = useState(null);
+//  const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [activeGroup, setActiveGroup] = useState('Lights');
@@ -129,7 +132,7 @@ const Test = () => {
       <div 
       className = 'btn m-1 border border-1' 
       onClick = {() => {setActiveGroup(group.group)}}
-      style = {{backgroundColor: group.group == activeGroup ? 'black' : 'white', color: group.group == activeGroup ? 'white' : 'black' }}
+      style = {{backgroundColor: group.group === activeGroup ? 'black' : 'white', color: group.group === activeGroup ? 'white' : 'black' }}
       >{group.group}</div></div> </>)}  
     </div>
     {data.map ( (group) => <Group key = {group.group} data = {group} activeGroup = {activeGroup}/>)}
