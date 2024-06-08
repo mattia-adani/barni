@@ -525,6 +525,7 @@ def all_devices(request, debug=False):
                     _device[property] = value
                 devices.append(_device)
 
+            response["data"] = devices
             response['status'] = 'OK'
 
         except Exception as err:
