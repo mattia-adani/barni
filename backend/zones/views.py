@@ -504,6 +504,7 @@ def all_devices(request, debug=False):
                 SELECT device
                 FROM devices
                 GROUP BY device
+                ORDER BY device
             """
 
             cursor.execute(query)
