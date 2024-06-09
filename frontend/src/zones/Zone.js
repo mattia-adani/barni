@@ -6,10 +6,6 @@ import Light from './Light2';
 import Impulse from './Impulse';
 import Cover from './Cover';
 
-//import Switch from './Switch';
-//import Dimmer from './Dimmer';
-
-
 const Device = props => {
 
   const data = props.data;
@@ -22,7 +18,7 @@ const Device = props => {
   else if (data.type === 'Shutters') return <Cover data = {data}/>
   
   return <>
-      <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
+      <div className="col-12 col-sm-6 col-md-4 col-lg-2 mb-2">
         <div 
           className="panel border border-2 m-1"
         >
@@ -38,8 +34,8 @@ const Group = props => {
   if (!(props.activeGroup === data.group)) return <></>; 
   return (
   <>
-    <div className="row">
-      <div className="col-12">
+    {/*<div className="row">
+      *<div className="col-12">
         <div 
           className="panel border border-2 bg-primary"
           style = {{color: 'white'}}
@@ -47,8 +43,8 @@ const Group = props => {
           {data.group}
         </div>            
       </div>
-    </div>
-    <div className="row">
+    </div> */}
+    <div className="row my-2">
     {data.devices.map((device) => <Device key = {device.device} data = {device}/>)}
     </div>
   </>
@@ -56,7 +52,7 @@ const Group = props => {
 
 }
 
-const Test = () => {
+const Zone = ({zone}) => {
 //  const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -72,7 +68,7 @@ const Test = () => {
       const api = '/zones/devices/';
 
       const request = {
-        zone: 'LIVING'
+        zone: zone
       };
 
       const options = {
@@ -103,7 +99,7 @@ const Test = () => {
   };
   
   // fetch data only on mount
-  useEffect(() => {fetchData()}, []);
+  useEffect(() => {fetchData()}, [zone]);
   /*
   const content = (
     <>
@@ -123,12 +119,17 @@ const Test = () => {
   );
   */
 
+  const backgroundImageUrl = `/img/Barni001.jpg`;
+
   const content = 
   <>
-  <div className='container'>
+  
+  <div className="content"  style={{ backgroundImage: `url(${backgroundImageUrl})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', height: '100vh' }}> 
+
+  <div className='container-fluid mt-0 pt-3' style = {{border: '1px solid black'}}>
     <div className='row'>  
     {data.map ( (group) => 
-      <><div className = 'col-4 col-sm-2 col-md-1 col-lg-1'>
+      <><div className = 'col-6 col-sm-4 col-md-2 col-lg-1'>
       <div 
       className = 'btn m-1 border border-1' 
       onClick = {() => {setActiveGroup(group.group)}}
@@ -137,6 +138,8 @@ const Test = () => {
     </div>
     {data.map ( (group) => <Group key = {group.group} data = {group} activeGroup = {activeGroup}/>)}
   </div>
+  </div>
+
   </>;
 
   var loading = <><Spinner className = 'm-5' animation="border" variant="primary" /></>;
@@ -146,4 +149,4 @@ const Test = () => {
 
 }
 
-export default Test;
+export default Zone;
