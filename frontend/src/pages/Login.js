@@ -34,7 +34,10 @@ const Login = () => {
     <Container component="main" maxWidth="xs">
       <Paper elevation={3} sx={{ padding: 4, marginTop: 8 }}>
         <Typography component="h1" variant="h5" align="center">
-          Login
+          MEMS
+        </Typography>
+        <Typography component="h1" variant="p" align="center">
+          Smarthome
         </Typography>
         <Box component="form" sx={{ mt: 1 }}>
           <TextField
