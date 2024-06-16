@@ -108,7 +108,7 @@ def test(request, debug=False):
 ###############################################################################################
 
 @csrf_exempt
-@debug
+#@debug
 def devices(request, debug=False):
 
     AUTH_TAG = 'test'
@@ -192,6 +192,8 @@ def devices(request, debug=False):
 
             for group in groups:
                 group_devices = []
+                if debug: print("START", group_devices)
+
                 for device in devices:
                     if 'group' in device:
                         if device['group'] == group:
@@ -199,8 +201,20 @@ def devices(request, debug=False):
                     else:
                         if group == '':
                             group_devices.append(device)
-                response["data"].append({'group': group, 'devices': group_devices})
+                
+                
+                if debug: print("BEFORE", group_devices)
+                #group_devices=sorted(group_devices.copy(), key = lambda x: (int(x['priority']) if 'priority' in x else 100, x['name']))
+                group_devices.sort(key = lambda x: (float(x['priority']) if 'priority' in x else 100, x['name']))
+                if debug: print("AFTER", group_devices)
 
+                if group == 'Lights': priority = 1
+                elif group == 'Blinds': priority = 2
+                elif group == 'Shutters': priority = 3
+                else: priority = 100
+                response["data"].append({'group': group, 'group_priority': priority, 'devices': group_devices})
+
+            response["data"] = sorted(response["data"], key=lambda x: (x['group_priority'], x['group']))
             response['status'] = 'OK'
 
         except Exception as err:

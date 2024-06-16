@@ -27,9 +27,9 @@ const Device = props => {
 }
 
 const Group = props => {
-
+  console.log("PROPS", props)
   const data = props.data;
-  if (!(props.activeGroup === data.group)) return <></>; 
+  if (props.activeGroup !== '' && !(props.activeGroup === data.group)) return <></>; 
   return (
   <>
     {/*<div className="row">
@@ -54,7 +54,7 @@ const Zone = ({zone}) => {
 //  const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [activeGroup, setActiveGroup] = useState('Lights');
+  const [activeGroup, setActiveGroup] = useState('');
 
 
   const fetchData = async () => {

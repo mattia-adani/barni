@@ -119,18 +119,39 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-
-
-                  {auth && auth.hasOwnProperty('dictionaries') && (
+                  {auth && auth.hasOwnProperty('test') && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
-                        to="/dictionaries"
+                        to="/zone/attic"
                       >
-                        <DictTag tag= {'Dictionaries'}/>
+                        <DictTag tag= {'Attic'}/>
                       </NavLink>
                     </li>
                   )}
+
+                {auth && auth.hasOwnProperty('test') && (
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to="/zone/patio"
+                      >
+                        <DictTag tag= {'Patio'}/>
+                      </NavLink>
+                    </li>
+                  )}
+
+                {auth && auth.hasOwnProperty('test') && (
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to="/zone/pool"
+                      >
+                        <DictTag tag= {'Pool'}/>
+                      </NavLink>
+                    </li>
+                  )}
+
                   {auth && auth.hasOwnProperty('users') && (
                     <li className="nav-item">
                       <NavLink
@@ -149,6 +170,16 @@ const Navbar = ({handleShow}) => {
                         to="/devices"
                       >
                         <DictTag tag= {'Devices'}/>
+                      </NavLink>
+                    </li>
+                  )}
+                  {auth && auth.hasOwnProperty('dictionaries') && (
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to="/dictionaries"
+                      >
+                        <DictTag tag= {'Dictionaries'}/>
                       </NavLink>
                     </li>
                   )}
