@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { setUserSession } from '../utils/common';
 import axios from 'axios';
 import { MD5 } from 'crypto-js';
-import './Login.css';  // Import the CSS file here
+import { Box, Button, CircularProgress, TextField, Typography, Container, Paper } from '@mui/material';
 
 const Login = () => {
 
@@ -11,9 +11,8 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const backendurl = process.env.REACT_APP_BACKEND_URL;   
-  const api = '/auth/login/'
+  const api = '/auth/login/';
 
-  // handle button click of login form
   const handleLogin = () => {
     setError(null);
     setLoading(true);
@@ -26,29 +25,55 @@ const Login = () => {
         window.location.reload();    
     }).catch(error => {
       setLoading(false);
+      setError('Login failed. Please check your credentials.');
       console.log(error);
     });
   }
 
   return (
-    <div className='flex-container'>
-      <div className='login-box'>
-        <h2>MEMS</h2>
-        <h4>Smarthome</h4>
-        <div className='input-group'>
-          <label>Username</label>
-          <input name="username" placeholder="username" type="text" {...username} autoComplete="new-password" />
-        </div>
-        <div className='input-group' style={{ marginTop: 10 }}>
-          <label>Password</label>
-          <input name="password" placeholder="password" type="password" {...password} autoComplete="new-password" />
-        </div>
-        {error && <small style={{ color: 'red' }}>{error}</small>}
-        <button type="button" onClick={handleLogin} disabled={loading}>
-          {loading ? 'Loading...' : 'Login'}
-        </button>
-      </div>
-    </div>
+    <Container component="main" maxWidth="xs">
+      <Paper elevation={3} sx={{ padding: 4, marginTop: 8 }}>
+        <Typography component="h1" variant="h5" align="center">
+          Login
+        </Typography>
+        <Box component="form" sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            autoFocus
+            {...username}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            {...password}
+          />
+          {error && <Typography color="error">{error}</Typography>}
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Login'}
+          </Button>
+        </Box>
+      </Paper>
+    </Container>
   );
 }
 
