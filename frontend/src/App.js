@@ -24,8 +24,8 @@ function App() {
 const [authLoading, setAuthLoading] = useState(true);
 
 const [show, setShow] = useState(false);
-const handleClose = () => setShow(false);
-const handleShow = () => setShow(true);
+const sidebarClose = () => setShow(false);
+const sidebarShow = () => setShow(true);
 
 
 useEffect(() => {
@@ -64,15 +64,10 @@ if (authLoading && getToken()) {
     <BrowserRouter>
         <div className="App">
         
-        <Sidebar show = {show} handleClose={handleClose}/>   
-        <Navbar show = {show} handleShow = {handleShow}/>
+        <Sidebar show = {show} handleClose={sidebarClose}/>   
+        <Navbar show = {show} handleShow = {sidebarShow}/>
 
         <div className="content"> 
-
-{/*        <div className="container-fluid mt-3">
-          <div className="row">
-            <div className="col">
-*/}
             <Routes>
                 <Route path="*" element={<NotFound />} />
                 <Route element={<PublicRoutes />}>
@@ -85,25 +80,19 @@ if (authLoading && getToken()) {
                   <Route path="/users/*" element={<UsersMain />} />
                   <Route path="/devices/*" element={<DevicesMain />} />
                   <Route path="/change-password/" element={<ChangePassword />} />     
-                  <Route path="/zone/living" element={<Zone zone={'LIVING'} />} />     
-                  <Route path="/zone/studio" element={<Zone zone={'STUDIO'} />} />     
-                  <Route path="/zone/doors" element={<Zone zone={'DOORS'} />} />     
-                  <Route path="/zone/tja" element={<Zone zone={'TJA'} />} />     
-                  <Route path="/zone/zla" element={<Zone zone={'ZLA'} />} />     
-                  <Route path="/zone/lsa" element={<Zone zone={'LSA'} />} />     
-                  <Route path="/zone/mems" element={<Zone zone={'MEMS'} />} />     
-                  <Route path="/zone/attic" element={<Zone zone={'ATTIC'} />} />     
-                  <Route path="/zone/patio" element={<Zone zone={'PATIO'} />} />     
-                  <Route path="/zone/pool" element={<Zone zone={'POOL'} />} />     
+                  <Route path="/zone/living" element={<Zone sidebarShow={sidebarShow} zone={'LIVING'} />} />     
+                  <Route path="/zone/studio" element={<Zone sidebarShow={sidebarShow} zone={'STUDIO'} />} />     
+                  <Route path="/zone/doors" element={<Zone sidebarShow={sidebarShow} zone={'DOORS'} />} />     
+                  <Route path="/zone/tja" element={<Zone sidebarShow={sidebarShow} zone={'TJA'} />} />     
+                  <Route path="/zone/zla" element={<Zone sidebarShow={sidebarShow} zone={'ZLA'} />} />     
+                  <Route path="/zone/lsa" element={<Zone  sidebarShow={sidebarShow} zone={'LSA'} />} />     
+                  <Route path="/zone/mems" element={<Zone  sidebarShow={sidebarShow} zone={'MEMS'} />} />     
+                  <Route path="/zone/attic" element={<Zone  sidebarShow={sidebarShow} zone={'ATTIC'} />} />     
+                  <Route path="/zone/patio" element={<Zone  sidebarShow={sidebarShow} zone={'PATIO'} />} />     
+                  <Route path="/zone/pool" element={<Zone  sidebarShow={sidebarShow} zone={'POOL'} />} />     
 
                 </Route>
               </Routes>
-{/*
-            </div>
-          </div>
-        </div>
-*/}
-
         </div>
       </div>
 
