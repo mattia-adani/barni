@@ -51,7 +51,6 @@ const Cover = (props) => {
             });
     };
 
-
     var bg = 'black';
 
     var bc = '{';
@@ -84,7 +83,7 @@ const Cover = (props) => {
                     </div>
                     <>
                     <div 
-                        style={{ display: 'flex', justifyContent: 'center', gap: '1rem'}}
+                        style={{ display: 'flex', justifyContent: 'center', gap: '1rem', border: '1px solid white'}}
                     >
                         {<div
                             className="btn m-1"

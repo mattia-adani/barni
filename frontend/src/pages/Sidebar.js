@@ -29,12 +29,16 @@ const Sidebar = ({show, handleClose}) => {
             {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/zla")}}><DictTag tag= {'Camera ZOE'}/></span> )}
             {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/tja")}}><DictTag tag= {'Camera Tommy'}/></span> )}
             {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/lsa")}}><DictTag tag= {'Camera Lulu'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/attic")}}><DictTag tag= {'Mansarda'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/patio")}}><DictTag tag= {'Patio'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/pool")}}><DictTag tag= {'Piscina'}/></span> )}
 
 
             <span className="nav-link" onClick ={() => {handleClose(); navigate("/dashboard")}}><DictTag tag= {'Dashboard'}/></span> 
-            {auth && auth.hasOwnProperty('dictionaries') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/dictionaries")}}><DictTag tag= {'Dictionaries'}/></span> )}
             {auth && auth.hasOwnProperty('users') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/users")}}><DictTag tag= {'Users'}/></span> )}
             {auth && auth.hasOwnProperty('devices') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/devices")}}><DictTag tag= {'Devices'}/></span> )}
+            {auth && auth.hasOwnProperty('dictionaries') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/dictionaries")}}><DictTag tag= {'Dictionaries'}/></span> )}
+
           </Nav>
         </Offcanvas.Body>
       </Offcanvas>

@@ -92,6 +92,9 @@ if (authLoading && getToken()) {
                   <Route path="/zone/zla" element={<Zone zone={'ZLA'} />} />     
                   <Route path="/zone/lsa" element={<Zone zone={'LSA'} />} />     
                   <Route path="/zone/mems" element={<Zone zone={'MEMS'} />} />     
+                  <Route path="/zone/attic" element={<Zone zone={'ATTIC'} />} />     
+                  <Route path="/zone/patio" element={<Zone zone={'PATIO'} />} />     
+                  <Route path="/zone/pool" element={<Zone zone={'POOL'} />} />     
 
                 </Route>
               </Routes>
