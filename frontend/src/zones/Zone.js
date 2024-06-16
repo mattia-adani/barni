@@ -10,20 +10,18 @@ const Device = props => {
 
   const data = props.data;
 
-  if (data.type === 'Light' || data.type === 'Dimmer') return <Light data = {data}/>
-  else if (data.type === 'RGBW') return <Light data = {data}/>
-  else if (data.type === 'Plug') return <Light data = {data}/>
-  else if (data.type === 'Impulse') return <Impulse data = {data}/>
-  else if (data.type === 'Blinds') return <Cover data = {data}/>
-  else if (data.type === 'Shutters') return <Cover data = {data}/>
-  
+  var content = <div className="panel border border-2 m-1">{data.name}</div>
+
+  if (data.type === 'Light' || data.type === 'Dimmer') content = <Light data = {data}/>
+  else if (data.type === 'RGBW') content = <Light data = {data}/>
+  else if (data.type === 'Plug') content = <Light data = {data}/>
+  else if (data.type === 'Impulse') content = <Impulse data = {data}/>
+  else if (data.type === 'Blinds') content = <Cover data = {data}/>
+  else if (data.type === 'Shutters') content = <Cover data = {data}/>
+
   return <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-2 mb-2">
-        <div 
-          className="panel border border-2 m-1"
-        >
-          {data.name}
-        </div>            
+      {content}
       </div>
   </>
 }
@@ -44,7 +42,7 @@ const Group = props => {
         </div>            
       </div>
     </div> */}
-    <div className="row my-2">
+    <div className="row">
     {data.devices.map((device) => <Device key = {device.device} data = {device}/>)}
     </div>
   </>
@@ -98,26 +96,7 @@ const Zone = ({zone}) => {
 
   };
   
-  // fetch data only on mount
   useEffect(() => {fetchData()}, [zone]);
-  /*
-  const content = (
-    <>
-      <div className="container">
-        <div className="row">
-          <div className="col-3">
-            <div 
-              className="btn bg-secondary"
-              onClick={handleClick}
-            >
-              button
-            </div>            
-          </div>
-        </div>
-      </div>
-    </>
-  );
-  */
 
   const backgroundImageUrl = `/img/Barni001.jpg`;
 
@@ -127,9 +106,19 @@ const Zone = ({zone}) => {
   <div className="content"  style={{ backgroundImage: `url(${backgroundImageUrl})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', height: '100vh' }}> 
 
   <div className='container-fluid mt-0 pt-3' style = {{border: '1px solid black'}}>
+    <div className="row">
+      <div className="col-12">
+        <div 
+          className="panel border border-2 p-1 d-block d-lg-none"
+          style = {{backgroundColor: 'white', color: 'black'}}
+        >
+          {zone}
+        </div>            
+      </div>
+    </div>
     <div className='row'>  
     {data.map ( (group) => 
-      <><div className = 'col-6 col-sm-4 col-md-2 col-lg-1'>
+      <><div className = 'col-4 col-sm-3 col-md-2 col-lg-1'>
       <div 
       className = 'btn m-1 border border-1' 
       onClick = {() => {setActiveGroup(group.group)}}

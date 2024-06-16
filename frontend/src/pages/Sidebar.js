@@ -34,6 +34,7 @@ const Sidebar = ({show, handleClose}) => {
             <span className="nav-link" onClick ={() => {handleClose(); navigate("/dashboard")}}><DictTag tag= {'Dashboard'}/></span> 
             {auth && auth.hasOwnProperty('dictionaries') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/dictionaries")}}><DictTag tag= {'Dictionaries'}/></span> )}
             {auth && auth.hasOwnProperty('users') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/users")}}><DictTag tag= {'Users'}/></span> )}
+            {auth && auth.hasOwnProperty('devices') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/devices")}}><DictTag tag= {'Devices'}/></span> )}
           </Nav>
         </Offcanvas.Body>
       </Offcanvas>
