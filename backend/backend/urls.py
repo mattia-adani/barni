@@ -22,4 +22,5 @@ urlpatterns = [
     path('auth/', include('auth.urls')),
     path('dictionaries/', include('dictionaries.urls')),
     path('zones/', include('zones.urls')),
+    path('devices/', include('devices.urls')),
 ]

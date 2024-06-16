@@ -58,7 +58,6 @@ const Impulse = (props) => {
 
     return (
         <>
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
                 <div
                     className={`panel m-1`}
                     style={{ backgroundColor: bg, borderTop: '1em solid', borderBottom: '1em solid', borderColor: bc }}
@@ -80,7 +79,6 @@ const Impulse = (props) => {
                     </div>
                     </>
                 </div>
-            </div>
         </>
     );
 };

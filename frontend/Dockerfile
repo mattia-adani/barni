@@ -2,7 +2,7 @@ FROM node:14
 
 WORKDIR /.
 
-RUN npm cache clean --force
+#RUN npm cache clean --force
 
 RUN npx create-react-app app
 
@@ -26,7 +26,7 @@ RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 RUN npm install @mui/material @emotion/react @emotion/styled
 RUN npm install @fontsource/roboto
 RUN npm install @mui/icons-material
-
+RUN npm install @mui/x-data-grid
 # Copy the entire application code to the container
 COPY . .
 

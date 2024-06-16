@@ -142,6 +142,17 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
+                  {auth && auth.hasOwnProperty('devices') && (
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to="/devices"
+                      >
+                        <DictTag tag= {'Devices'}/>
+                      </NavLink>
+                    </li>
+                  )}
+
                 </>
               )}
             </ul>

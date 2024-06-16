@@ -58,7 +58,6 @@ const Cover = (props) => {
 
     return (
         <>
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
                 <div
                     className={`panel m-1`}
                     style={{ backgroundColor: bg, borderTop: '0em solid', borderBottom: '0em solid', borderColor: bc }}
@@ -98,7 +97,6 @@ const Cover = (props) => {
                     </div>
                     </>
                 </div>
-            </div>
         </>
     );
 };

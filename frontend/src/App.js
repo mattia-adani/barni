@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Navbar from './pages/Navbar.js';
 import UsersMain from './users/UsersMain.js';
+import DevicesMain from './devices/DevicesMain.js';
 import DictionariesGate from './dictionaries/DictionariesGate.js';
 import ChangePassword from './pages/ChangePassword.js';
 import Sidebar from './pages/Sidebar.js';
@@ -82,6 +83,7 @@ if (authLoading && getToken()) {
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/dictionaries/*" element={<DictionariesGate />} />
                   <Route path="/users/*" element={<UsersMain />} />
+                  <Route path="/devices/*" element={<DevicesMain />} />
                   <Route path="/change-password/" element={<ChangePassword />} />     
                   <Route path="/zone/living" element={<Zone zone={'LIVING'} />} />     
                   <Route path="/zone/studio" element={<Zone zone={'STUDIO'} />} />     
