@@ -63,7 +63,7 @@ services:
 
   frontend:
     build: ./frontend
-    #restart: always
+    restart: always
     container_name: ${PROJECT_NAME}-frontend
     mem_limit: 4096m
     cpus: 1
@@ -137,14 +137,14 @@ services:
       MQTT_BROKER: ${MQTT_BROKER}
       MQTT_PORT: ${MQTT_PORT}
       MQTT_TOPIC_FOR_SYNC: ${MQTT_TOPIC_FOR_SYNC}
-
+  
   load-data:
     build: ./load-data
     container_name: ${PROJECT_NAME}-load-data
-    #profile: load-data
+    profile: load-data
     mem_limit: 512m
     cpus: 1.0
-    command: ["python3", "/app/script/load.py"]
+    #command: ["python3", "/app/script/load.py"]
     environment:
       DB_DATABASE: ${DB_DATABASE}
       DB_USER: ${DB_USER}
