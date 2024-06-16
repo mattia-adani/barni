@@ -50,7 +50,7 @@ const Group = props => {
 
 }
 
-const Zone = ({zone}) => {
+const Zone = ({sidebarShow, zone}) => {
 //  const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -111,6 +111,7 @@ const Zone = ({zone}) => {
         <div 
           className="panel border border-2 p-1 d-block d-lg-none"
           style = {{backgroundColor: 'white', color: 'black'}}
+          onClick={sidebarShow}
         >
           {zone}
         </div>            
