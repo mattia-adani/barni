@@ -3,8 +3,25 @@ version: '3.9'
 networks:
   network:
     driver: bridge
+  gateway:
+    name: nginx_shared
+    external: true
 
 services:
+
+  barni-gateway:
+    image: nginx:latest
+    container_name: ${PROJECT_NAME}-gateway
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - network
+      - gateway
+    depends_on:
+      - backend
+      - frontend
 
   db:
     image: postgres:latest
@@ -32,8 +49,8 @@ services:
     container_name: ${PROJECT_NAME}-backend
     mem_limit: 1024m
     cpus: 2.0
-    ports:
-      - "${BACKEND_PORT}:8000"
+#    ports:
+#      - "${BACKEND_PORT}:8000"
     volumes:
       - ./backend:/app
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
@@ -49,7 +66,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: db
       DB_PORT: 5432
-      FRONTEND_URL: ${HOST}:${FRONTEND_PORT}
+      FRONTEND_URL: ${HOST}
       MQTT_BROKER: ${MQTT_BROKER}
       MQTT_PORT: ${MQTT_PORT}
       MQTT_TOPIC_FOR_ACTION: ${MQTT_TOPIC_FOR_ACTION}
@@ -67,14 +84,14 @@ services:
     container_name: ${PROJECT_NAME}-frontend
     mem_limit: 4096m
     cpus: 1
-    ports:
-      - "${FRONTEND_PORT}:3000"
+#    ports:
+#      - "${FRONTEND_PORT}:3000"
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
     command: ["npm", "start"]
     environment:
-      - REACT_APP_BACKEND_URL=${HOST}:${BACKEND_PORT}
+      - REACT_APP_BACKEND_URL=${HOST}/${BACKEND_PATH}
       - WDS_SOCKET_HOST=127.0.0.1 
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true 
@@ -159,4 +176,4 @@ services:
       - network
     depends_on:
       - db
-    
+     
