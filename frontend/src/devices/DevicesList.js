@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlus, faSave, faCancel, faFilter } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
-const Item = ({item, filterDevice, filterType, filterRoom, filterGroup}) => {
+const Item = ({item, filterDevice, filterType, filterRoom, filterGroup, filterName}) => {
 
     var visible = true;
 
@@ -17,12 +17,14 @@ const Item = ({item, filterDevice, filterType, filterRoom, filterGroup}) => {
     if (!(filterType == '')) if (!(item.type ? item.type.toString().toUpperCase() : '').includes(filterType.toString().toUpperCase())) visible = false;
     if (!(filterRoom == '')) if (!(item.room ? item.room.toString().toUpperCase() : '').includes(filterRoom.toString().toUpperCase())) visible = false;
     if (!(filterGroup == '')) if (!(item.group ? item.group.toString().toUpperCase() : '').includes(filterGroup.toString().toUpperCase())) visible = false;
+    if (!(filterName == '')) if (!(item.name ? item.name.toString().toUpperCase() : '').includes(filterName.toString().toUpperCase())) visible = false;
 
     if (!visible) return <></>;
     return (
         <>
         <tr>
             <td><Link to={`/devices/${item.device}`}>{item.device}</Link></td>
+            <td><Update item = {item} FieldName = 'name' FieldValue =  {item.name}/></td>
             <td><Update item = {item} FieldName = 'type' FieldValue =  {item.type}/></td>
             <td><Update item = {item} FieldName = 'room' FieldValue =  {item.room}/></td>
             <td><Update item = {item} FieldName = 'group' FieldValue =  {item.group}/></td>
@@ -307,6 +309,7 @@ export default function DevicesList ()  {
     const [filterType, setFilterType] = useState('');
     const [filterRoom, setFilterRoom] = useState('');
     const [filterGroup, setFilterGroup] = useState('');
+    const [filterName, setFilterName] = useState('');
 
     const fetchData = async () => {
   
@@ -327,7 +330,7 @@ export default function DevicesList ()  {
             response => {
                 setLoading(false);
 //                console.log(response);
-//                console.log("DATA", response.data.data);
+                console.log("DATA", response.data.data);
                 setData(response.data.data);
             }
         ).catch(
@@ -355,6 +358,9 @@ export default function DevicesList ()  {
                 <p className='my-0'>Device</p>
             </th>
             <th>
+                <p className='my-0'>Name</p>
+            </th>
+            <th>
                 <p className='my-0'>Type</p>
             </th>
             <th>
@@ -368,6 +374,7 @@ export default function DevicesList ()  {
             </tr>
             <tr className="table-light" >
             <th><InputComponent initialValue={''} setExternalValue={setFilterDevice}/></th>
+            <th><InputComponent initialValue={''} setExternalValue={setFilterName}/></th>
             <th><InputComponent initialValue={''} setExternalValue={setFilterType}/></th>
             <th><InputComponent initialValue={''} setExternalValue={setFilterRoom}/></th>
             <th><InputComponent initialValue={''} setExternalValue={setFilterGroup}/></th>
@@ -383,6 +390,7 @@ export default function DevicesList ()  {
                     filterType={filterType}
                     filterRoom={filterRoom}
                     filterGroup={filterGroup}
+                    filterName={filterName}
                     />
                 )}
                 </tbody>
