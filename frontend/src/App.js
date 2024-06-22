@@ -27,6 +27,15 @@ const [show, setShow] = useState(false);
 const sidebarClose = () => setShow(false);
 const sidebarShow = () => setShow(true);
 
+useEffect(() => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .register('/service-worker.js')
+      .then((reg) => console.log('Service Worker registered'))
+      .catch((err) => console.error('Service Worker registration failed', err));
+  }
+}, []);
+
 
 useEffect(() => {
 

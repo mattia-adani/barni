@@ -9,9 +9,10 @@ import FlashOffIcon from '@mui/icons-material/FlashOff';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import RGBWColorModal from './colorModal';
 
-
 const Light = (props) => {
+
     const data = props.data;
+
     const [isLoading, setLoading] = useState(false);
     const [state, setState] = useState(data.state);
     const [brightness, setBrightness] = useState(parseInt(data.hasOwnProperty('brightness') ? data.brightness * 100 / 255 : 100));
@@ -27,6 +28,12 @@ const Light = (props) => {
         icon_on = <FlashOnIcon style= {{color: 'white'}} />;
         icon_off = <FlashOffIcon style= {{color: 'white'}} />;;
         color_on = 'cyan';
+    }
+
+    if (data.type == 'Status') {
+        icon_on = <></>;
+        icon_off = <></>;
+        color_on = 'orange';
     }
 
     const sync = () => {
@@ -150,6 +157,9 @@ const Light = (props) => {
     };
 
     const handleClick = (action) => {
+
+        if (data.type ==='Status') return;
+
         if (isLoading) return;
 
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
