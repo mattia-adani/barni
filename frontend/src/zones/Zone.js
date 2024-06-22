@@ -5,6 +5,7 @@ import { Spinner } from 'react-bootstrap';
 import Light from './Light2';
 import Impulse from './Impulse';
 import Cover from './Cover';
+import Sensor from './Sensor';
 
 const Device = props => {
 
@@ -19,6 +20,7 @@ const Device = props => {
   else if (data.type === 'Impulse') content = <Impulse data = {data}/>
   else if (data.type === 'Blinds') content = <Cover data = {data}/>
   else if (data.type === 'Shutters') content = <Cover data = {data}/>
+  else if (data.type === 'Temperature') content = <Sensor data = {data}/>
 
   return <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-2 mb-2">
