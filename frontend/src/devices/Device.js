@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPlus, faSave, faCancel, faFilter } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
-const Item = ({item, filterDevice, filterProp, filterValue}) => {
+const Item = ({key, item, filterDevice, filterProp, filterValue}) => {
 
     var visible = true;
 
@@ -279,7 +279,7 @@ export default function Device ()  {
 
     let {device} = useParams();
 
-    console.log("DEVICE", device)
+//    console.log("DEVICE", device)
 
     const navigate = useNavigate();
 
@@ -367,6 +367,7 @@ export default function Device ()  {
             <tbody>{
                 data.map((item)=>
                 <Item 
+                    key={item.name}
                     item = {item} 
                     filterDevice={filterDevice} 
                     filterProp={filterProp}
