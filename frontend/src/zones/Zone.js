@@ -15,6 +15,7 @@ const Device = props => {
   if (data.type === 'Light' || data.type === 'Dimmer') content = <Light data = {data}/>
   else if (data.type === 'RGBW') content = <Light data = {data}/>
   else if (data.type === 'Plug') content = <Light data = {data}/>
+  else if (data.type === 'Status') content = <Light data = {data}/>
   else if (data.type === 'Impulse') content = <Impulse data = {data}/>
   else if (data.type === 'Blinds') content = <Cover data = {data}/>
   else if (data.type === 'Shutters') content = <Cover data = {data}/>
