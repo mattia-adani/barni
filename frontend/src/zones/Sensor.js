@@ -7,7 +7,7 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 
 import RGBWColorModal from './colorModal.js';
 
-export default Sensor = (props) => {
+const Sensor = (props) => {
 
     const data = props.data;
 
@@ -129,3 +129,5 @@ export default Sensor = (props) => {
         </>
     );
 };
+
+export default Sensor;
