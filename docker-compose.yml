@@ -1,4 +1,4 @@
-version: '3.9'
+#version: '3.9'
 
 networks:
   network:
@@ -24,7 +24,7 @@ services:
       - frontend
 
   db:
-    image: postgres:latest
+    image: postgres:16
     container_name: ${PROJECT_NAME}-db
     restart: always
     environment:
@@ -49,11 +49,13 @@ services:
     container_name: ${PROJECT_NAME}-backend
     mem_limit: 1024m
     cpus: 2.0
-#    ports:
-#      - "${BACKEND_PORT}:8000"
+    ports:
+      - "${BACKEND_PORT}:8000"
     volumes:
       - ./backend:/app
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+#    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: ["sh", "/app/start.sh"]
+
     networks:
       - network
     depends_on:
@@ -66,6 +68,9 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: db
       DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_BACKEND_HOST: db-backend
+      DB_BACKEND_PORT: 5432
       FRONTEND_URL: ${HOST}
       MQTT_BROKER: ${MQTT_BROKER}
       MQTT_PORT: ${MQTT_PORT}
@@ -176,4 +181,23 @@ services:
       - network
     depends_on:
       - db
-     
+
+  cron:
+    build: ./cron
+    container_name: ${PROJECT_NAME}-cron
+    volumes:
+      - ./backups/db:/backups
+      - ./backups/db_restore:/restore
+      - ./cron/scripts:/scripts
+    environment:
+      TZ: ${TZ}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_HOST: db
+      PGPASSWORD: ${DB_PASSWORD}
+      REMOTE_BACKUP_FOLDER: ${REMOTE_BACKUP_FOLDER}
+      REMOTE_RESTORE_FOLDER: ${REMOTE_RESTORE_FOLDER}
+      BACKUP_DAYS: ${BACKUP_DAYS}
+      BACKUP_KEEP_AT_LEAST: ${BACKUP_KEEP_AT_LEAST}
+      BACKUP_RESTORE: ${BACKUP_RESTORE}

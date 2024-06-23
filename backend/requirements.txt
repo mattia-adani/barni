@@ -3,3 +3,5 @@ django-cors-headers
 mysqlclient
 psycopg2-binary
 paho-mqtt
+python-dotenv
+tzdata

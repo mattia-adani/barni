@@ -17,8 +17,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 #RUN timedatectl set-timezone Europe/Rome
 
 # Copy the current directory contents into the container at /app
-COPY . /app/
+COPY ./start.sh /app/start.sh
 
 # Collect static files
 #RUN python manage.py migrate
 #RUN python migrate.py
+
+#RUN python manage.py makemigrations
+#RUN python manage.py migrate
