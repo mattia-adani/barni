@@ -4,3 +4,4 @@ mosquitto/log
 mosquitto/data
 *pycache*
 dbInitData.sql
+*migrations*

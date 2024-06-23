@@ -1,0 +1,12 @@
+# Backup postgres database at boot and every day at 2am; remove dumps older than 7 days
+@reboot sh /scripts/backup.sh;
+0 2 * * * sh /scripts/backup.sh;
+
+0 2 * * * sh /scripts/cleanup.sh;
+
+@reboot sh /scripts/sync.sh;
+0 3 * * * sh /scripts/sync.sh;
+
+#@reboot sleep 30; echo "rclone sync onedrive:$REMOTE_RESTORE_FOLDER /restore ";  
+0 4 * * *  $BACKUP_RESTORE && echo "Running restore" || echo "Restore disabled"
+0 4 * * *  $BACKUP_RESTORE && sh /scripts/restore.sh

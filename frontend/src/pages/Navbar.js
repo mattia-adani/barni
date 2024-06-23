@@ -152,6 +152,50 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
+                {auth && auth.hasOwnProperty('test') && (
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to="/zone/heating"
+                      >
+                        <DictTag tag= {'Heating'}/>
+                      </NavLink>
+                    </li>
+                  )}
+
+                {auth && auth.hasOwnProperty('test') && (
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to="/zone/cooling"
+                      >
+                        <DictTag tag= {'Cooling'}/>
+                      </NavLink>
+                    </li>
+                  )}
+
+                {auth && auth.hasOwnProperty('users') && (
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to="/zone/unassigned"
+                      >
+                        <DictTag tag= {'Unassigned'}/>
+                      </NavLink>
+                    </li>
+                  )}
+
+                {auth && auth.hasOwnProperty('users') && (
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to="/zone/alarm"
+                      >
+                        <DictTag tag= {'Alarms'}/>
+                      </NavLink>
+                    </li>
+                  )}
+
                   {auth && auth.hasOwnProperty('users') && (
                     <li className="nav-item">
                       <NavLink
