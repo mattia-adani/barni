@@ -646,7 +646,7 @@ def device_property_delete(request, debug=False):
 ###############################################################################################
 
 @csrf_exempt
-#@debug
+@debug
 def device_property_update(request, debug=False):
 
     AUTH_TAG = 'devices'
