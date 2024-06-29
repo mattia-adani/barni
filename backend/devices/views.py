@@ -700,7 +700,7 @@ def device_property_update(request, debug=False):
             query = f"""
                 UPDATE devices
                 SET {target_field} = {target_value}
-                WHERE device = {device} AND property = {property} AND value = {value}
+                WHERE device = {device} AND property = {property}
             """
             if debug: print(query)
 
