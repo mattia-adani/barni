@@ -1,15 +1,17 @@
 # Backup postgres database at boot and every day at 2am; remove dumps older than 7 days
-@reboot sh /scripts/backup.sh;
-0 2 * * * sh /scripts/backup.sh;
+@reboot sh /scripts/initialize.sh
+0 2 * * * sh /scripts/backup.sh
+0 2 * * * sh /scripts/cleanup.sh
 
-0 2 * * * sh /scripts/cleanup.sh;
+# Sync data at boot and every day at 3am
+0 3 * * * sh /scripts/sync.sh
 
-@reboot sh /scripts/sync.sh;
-0 3 * * * sh /scripts/sync.sh;
+# Restore database if enabled
+0 4 * * * $BACKUP_RESTORE && (echo "Running restore"; sh /scripts/restore.sh) || echo "Restore disabled"
 
-#@reboot sleep 30; echo "rclone sync onedrive:$REMOTE_RESTORE_FOLDER /restore ";  
-0 4 * * *  $BACKUP_RESTORE && echo "Running restore" || echo "Restore disabled"
-0 4 * * *  $BACKUP_RESTORE && sh /scripts/restore.sh
+# Air conditioning control every minute
+* * * * * python3 /scripts/air_conditioning.py
 
-#air conditioning 
-* * * * *  python3 /scripts/air_conditioning.py
+# Temperature log every 5 minutes
+*/5 * * * * python3 /scripts/temperature_log.py
+

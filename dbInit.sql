@@ -66,3 +66,10 @@ CREATE TABLE colors (
     luma FLOAT,
     hue FLOAT
 );
+
+CREATE TABLE temperature_log (
+    utc TIMESTAMP,
+    device VARCHAR(48),
+    temperature FLOAT,
+    PRIMARY KEY (device, utc)
+);
