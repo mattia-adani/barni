@@ -4,6 +4,7 @@ import { getToken, getUser } from '../utils/common.js';
 import Slider from '@mui/material/Slider';
 import Box from '@mui/material/Box';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import TemperatureGraph from './TemperatureGraph.js';
 
 import RGBWColorModal from './colorModal.js';
 
@@ -124,6 +125,7 @@ const Sensor = (props) => {
                             {icon} <span style={{color: 'white', fontWeight: 'bold', fontSize:'1.5em'}}>{data.state}</span>
                         </div>}
                     </div>
+                    <TemperatureGraph />
                     </>
                 </div>
         </>

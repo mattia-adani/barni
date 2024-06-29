@@ -27,6 +27,8 @@ RUN npm install @mui/material @emotion/react @emotion/styled
 RUN npm install @fontsource/roboto
 RUN npm install @mui/icons-material
 RUN npm install @mui/x-data-grid
+RUN npm install moment
+RUN npm install react-chartjs-2 chart.js chartjs-adapter-moment
 # Copy the entire application code to the container
 COPY . .
 
