@@ -26,7 +26,7 @@ def devices(debug = False):
 
         query = """
             select device from devices 
-            where property = 'type' and value = 'AirCondControl'
+            where property = 'type' and (value = 'AirCondControl' or value = 'Cooling')
         """
         cursor.execute(query)
         result = cursor.fetchall()
@@ -121,9 +121,9 @@ def main():
             print(str(err)) 
             cooling_enabled = False
 
-        if not cooling_enabled: action = 'off'
+        if not cooling_enabled: continue
 
-        elif temperature > target_temperature:
+        if temperature > target_temperature:
            action = 'on'
 
         else:
