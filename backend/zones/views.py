@@ -490,8 +490,6 @@ def RGBcolor(request, debug=False):
 
 ###############################################################################################
 
-###############################################################################################
-
 @csrf_exempt
 @debug
 def all_devices(request, debug=False):
@@ -561,3 +559,4 @@ def all_devices(request, debug=False):
         return HttpResponse(json.dumps(response, cls=DateTimeEncoder))
 
 ###############################################################################################
+

@@ -92,7 +92,7 @@ const CoolingControl = ({ data }) => {
         if (isLoading) return;
 
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
-        const api = '/zones/test/';
+        const api = '/property/update/';
         const token = getToken();
         const user = getUser();
 
@@ -103,9 +103,9 @@ const CoolingControl = ({ data }) => {
                 {
                     username: user.username,
                     device: data.device,
-                    type: data.type,
-                    action: 'set_target_temperature',
-                    value: parseFloat(value),
+                    property: 'target_temperature',
+                    target_field: 'value',
+                    target_value: parseFloat(value),
                 },
                 {
                     headers: {
@@ -202,7 +202,7 @@ const CoolingControl = ({ data }) => {
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                     <Slider
                         value={targetTemperature}
-                        min={24}
+                        min={23}
                         max={28}
                         step={0.5}
                         marks={marks}
