@@ -120,7 +120,7 @@ def main():
 
         if not cooling_enabled: action = 'off'
 
-        elif temperature > temperature:
+        elif target_temperature > temperature:
            action = 'on'
 
         else:
