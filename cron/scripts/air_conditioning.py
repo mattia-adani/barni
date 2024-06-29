@@ -114,7 +114,8 @@ def main():
         target_temperature = float(props['target_temperature'])
         try:
             cooling_enabled = bool(int(props['cooling_enabled']))
-        except: 
+        except Exception as err:
+            print(str(err)) 
             cooling_enabled = False
 
         if not cooling_enabled: action = 'off'
@@ -126,6 +127,6 @@ def main():
             action = 'off'
         
         switch(device, action)
-        print(device, temperature, target_temperature, action)
+        print(device, cooling_enabled, temperature, target_temperature, action)
 
 main()
