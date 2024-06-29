@@ -92,10 +92,10 @@ const CoolingControl = ({ data }) => {
         if (isLoading) return;
 
         const backendUrl = process.env.REACT_APP_BACKEND_URL;
-        const api = '/property/update/';
+        const api = '/devices/property/update/';
         const token = getToken();
         const user = getUser();
-
+        console.log(`${backendUrl}${api}`)
         setLoading(true);
         axios
             .post(
@@ -108,6 +108,8 @@ const CoolingControl = ({ data }) => {
                     target_value: parseFloat(value),
                 },
                 {
+                    mode: 'cors',
+                    withCredentials: true,
                     headers: {
                         Authorization: `${token}`,
                         'Content-Type': 'application/json',
