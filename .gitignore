@@ -1,5 +1,7 @@
 .env
+backups
 postgres-data
+db-backend
 mosquitto/log
 mosquitto/data
 *pycache*
