@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import { getToken, getUser } from '../utils/common.js';
 import Slider from '@mui/material/Slider';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
@@ -13,6 +15,7 @@ const CoolingControl = ({ data }) => {
     const [targetTemperature, setTargetTemperature] = useState(data.target_temperature ? parseInt(data.target_temperature) : 20);
     const [temperature, setTemperature] = useState(data.temperature ? parseInt(data.temperature) : '');
     const [error, setError] = useState(null);
+    const [enabled, setEnabled] = useState(parseInt(data.cooling_enabled));
 
     const iconOn = useMemo(() => <LightModeIcon style={{ color: 'white' }} />, []);
     const iconOff = useMemo(() => <PowerSettingsNewIcon style={{ color: 'white' }} />, []);
@@ -131,6 +134,51 @@ const CoolingControl = ({ data }) => {
             });
     }, [isLoading, data.device, data.type]);
 
+    const handleEnable = useCallback((event, value) => {
+        if (isLoading) return;
+
+        const backendUrl = process.env.REACT_APP_BACKEND_URL;
+        const api = '/devices/property/update/';
+        const token = getToken();
+        const user = getUser();
+        console.log(`${backendUrl}${api}`);
+        console.log("new value", value) 
+        setEnabled(value)
+
+        setLoading(true);
+        axios
+            .post(
+                `${backendUrl}${api}`,
+                {
+                    username: user.username,
+                    device: data.device,
+                    property: 'cooling_enabled',
+                    target_field: 'value',
+                    target_value: value ? 1 : 0,
+                },
+                {
+                    mode: 'cors',
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+            .then((response) => {
+                setLoading(false);
+                console.log(response);
+            })
+            .catch((error) => {
+                setLoading(false);
+                setError(error.message);
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [isLoading, data.cooling_enabled]);
+
     const handleClick = useCallback((action) => {
         if (isLoading) return;
 
@@ -175,6 +223,7 @@ const CoolingControl = ({ data }) => {
         sync();
     }, [sync]);
 
+    console.log(data)
     return (
         <div
             className="panel m-1"
@@ -200,6 +249,19 @@ const CoolingControl = ({ data }) => {
                 {thermostatIcon} <span>{temperature}</span>
             </p>
             </div>
+            {['off', 'on'].includes(state) && (
+                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <FormControlLabel 
+                    control={<Switch 
+                        checked={enabled}
+                        onChange={handleEnable}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                        color='warning' 
+                        size = 'large'/>} 
+                    label="Enabled" />
+                </Box>
+            )}
+
             {['off', 'on'].includes(state) && (
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                     <Slider
