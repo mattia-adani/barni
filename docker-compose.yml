@@ -189,15 +189,30 @@ services:
       - ./backups/db:/backups
       - ./backups/db_restore:/restore
       - ./cron/scripts:/scripts
+    entrypoint: ["sh", "-c", "crond -f"]
+    command: []
+
     environment:
       TZ: ${TZ}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
       PGPASSWORD: ${DB_PASSWORD}
       REMOTE_BACKUP_FOLDER: ${REMOTE_BACKUP_FOLDER}
       REMOTE_RESTORE_FOLDER: ${REMOTE_RESTORE_FOLDER}
       BACKUP_DAYS: ${BACKUP_DAYS}
       BACKUP_KEEP_AT_LEAST: ${BACKUP_KEEP_AT_LEAST}
       BACKUP_RESTORE: ${BACKUP_RESTORE}
+#      MQTT_BROKER: ${MQTT_BROKER}
+#      MQTT_PORT: ${MQTT_PORT}
+      MQTT_BROKER: mqtt
+      MQTT_PORT: 1883
+      MQTT_TOPIC_FOR_SYNC: ${MQTT_TOPIC_FOR_SYNC}
+      MQTT_TOPIC_FOR_ACTION: ${MQTT_TOPIC_FOR_ACTION}
+
+    networks:
+      - network
+    depends_on:
+      - db
