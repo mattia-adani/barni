@@ -83,7 +83,7 @@ def device_info(device_id, debug = True):
         connection.close()
 
 def switch(device, action):
-    payload = {'device': device, 'action': action, 'value': action}
+    payload = {'device': f"{device}_switch", 'action': action, 'value': action}
     mqtt_message = json.dumps(payload)  # Message to publish
     print(MQTT_TOPIC_FOR_ACTION, payload)
     client = mqtt.Client()
@@ -92,12 +92,18 @@ def switch(device, action):
     client.disconnect()
 
 def update(device):
-    payload = {'device': device, 'action': 'sync', 'value': 1}
-    mqtt_message = json.dumps(payload)  # Message to publish
-    print(MQTT_TOPIC_FOR_ACTION, payload)
+
+    payload = {'device': f"{device}_temperature", 'action': 'sync', 'value': 1}
+    mqtt_message1 = json.dumps(payload)  # Message to publish
+    payload = {'device': f"{device}_switch", 'action': 'sync', 'value': 1}
+    mqtt_message2 = json.dumps(payload)  # Message to publish
+
+#    print(MQTT_TOPIC_FOR_ACTION, payload)
     client = mqtt.Client()
     client.connect(MQTT_BROKER, MQTT_PORT, 60)
-    client.publish(MQTT_TOPIC_FOR_ACTION, mqtt_message)
+    client.publish(MQTT_TOPIC_FOR_ACTION, mqtt_message1)
+    client.publish(MQTT_TOPIC_FOR_ACTION, mqtt_message2)
+ 
     client.disconnect()
 
 def main():
