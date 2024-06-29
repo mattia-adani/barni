@@ -692,7 +692,7 @@ def device_property_update(request, debug=False):
             
             device = repr(body["device"])
             property = repr(body["property"])
-            value = repr(body["value"])
+#            value = repr(body["value"])
 
             target_field = body["target_field"]
             target_value = repr(body["target_value"])
