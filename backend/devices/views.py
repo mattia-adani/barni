@@ -646,7 +646,7 @@ def device_property_delete(request, debug=False):
 ###############################################################################################
 
 @csrf_exempt
-@debug
+#@debug
 def device_property_update(request, debug=False):
 
     AUTH_TAG = 'devices'
@@ -720,6 +720,87 @@ def device_property_update(request, debug=False):
             response['data']['device'] = device
             for property, value in result:
                 response['data'][property] = value
+
+            response['status'] = 'OK'
+
+        except Exception as err:
+            response["error"] = str(err)
+
+    except Error as err:  # Catch the custom Error
+        response["error"] = str(err)
+
+    except Exception as err:
+        response["status"] = "Error"
+        response["message"] = str(err)
+
+    finally:
+        if debug:
+            print(response)
+        cursor.close()
+        connection.close()
+        return HttpResponse(json.dumps(response, cls=DateTimeEncoder))
+
+###############################################################################################
+
+@csrf_exempt
+@debug
+def device_temperature(request, debug=False):
+
+    AUTH_TAG = 'devices'
+    response = {}
+
+    class Error(Exception):
+        pass
+
+    try:
+        connection = db.connect(**dbconfig)
+        cursor = connection.cursor()
+
+        try:
+            token = request.headers.get('Authorization')
+        except:
+            token = None
+
+        if token is None or token == 'undefined':
+            raise Error("No token")
+        
+        auth_grant = get_auth_grant(AUTH_TAG, token, cursor)
+        if debug:
+            print("AUTH_GRANT", auth_grant)
+        if auth_grant is None:
+            response["status"] = 'not authorized (0)'
+            raise Error("No authorization")
+
+        if auth_grant.find("a") == -1 and auth_grant.find("r") == -1:
+            response["status"] = 'not authorized (1)'
+            raise Error("No authorization")
+
+        if request.method != 'POST':
+            raise Error("No post data")
+
+        response["data"] = []
+
+        try:
+            body = json.loads(request.body.decode("utf-8"))
+            response["request"] = body
+            if debug:
+                print(body)
+
+            device = body["device"]
+
+            query = f"""
+                SELECT utc, temperature 
+                FROM temperature_log
+                WHERE device = '{device}'
+                ORDER BY utc
+            """
+            if debug: print(query)
+            cursor.execute(query)
+            # columns = [description[0] for description in cursor.description]
+            result = cursor.fetchall()
+            if debug: print(result)
+            for utc, temperature in result:
+                response['data'].append({'timestamp': utc, 'temperature':temperature})
 
             response['status'] = 'OK'
 

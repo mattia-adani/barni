@@ -70,7 +70,6 @@ const TemperatureGraph = ({device}) => {
   // Sample temperature data
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
-
   const fetchData = async () => {
 
     const url = process.env.REACT_APP_BACKEND_URL;
@@ -80,25 +79,16 @@ const TemperatureGraph = ({device}) => {
         headers: {
             'Content-Type': 'application/json',
             Authorization: getToken(),
-        },
+        }
     };
 
     try {
         const response = await axios.post(`${url}${api}`, request, options);
-        //const thisDevice = response.data.data;
-    
+        setData(response.data.data);
+      
       } catch (error) {
         console.log(error);
     } finally {
-      setData([
-        { timestamp: '2024-06-29T01:00:00Z', temperature: 22 },
-        { timestamp: '2024-06-29T02:00:00Z', temperature: 23 },
-        { timestamp: '2024-06-29T03:00:00Z', temperature: 21 },
-        { timestamp: '2024-06-29T04:00:00Z', temperature: 24 },
-        { timestamp: '2024-06-29T05:00:00Z', temperature: 20 },
-        { timestamp: '2024-06-29T06:00:00Z', temperature: 25 },
-      ])
-
     }
 
   }

@@ -18,13 +18,22 @@ MQTT_TOPIC_FOR_SYNC=os.environ.get('MQTT_TOPIC_FOR_SYNC')
 def log_temperature(device):
 
     try:
-        connection = db.connect(**dbconfig)
-        cursor = connection.cursor()
 
         props = device_info(device)['data']
+        if 'log' not in props: return
+        log = bool(int(props['log']))
+        if not log: return
         temperature = float(props['state'].split(' ')[0])
         now = f"{datetime.datetime.utcnow()}"
         print(device, now, temperature)
+
+    except Exception as err:
+        print(str(err))
+        return
+
+    try:
+        connection = db.connect(**dbconfig)
+        cursor = connection.cursor()
 
         query = f"""
             insert into temperature_log 
