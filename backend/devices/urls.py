@@ -10,4 +10,5 @@ urlpatterns = [
     path('property/insert/', views.device_property_insert),
     path('property/delete/', views.device_property_delete),
     path('property/update/', views.device_property_update),
+    path('temperature/', views.device_temperature),
 ]

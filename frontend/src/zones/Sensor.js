@@ -125,7 +125,7 @@ const Sensor = (props) => {
                             {icon} <span style={{color: 'white', fontWeight: 'bold', fontSize:'1.5em'}}>{data.state}</span>
                         </div>}
                     </div>
-                    <TemperatureGraph />
+                    {data.hasOwnProperty('log') && parseInt(data.log) === 1 && (<TemperatureGraph device= {data.device}/>)}
                     </>
                 </div>
         </>
