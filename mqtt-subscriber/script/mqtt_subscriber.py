@@ -50,6 +50,9 @@ async def mqtt_listener():
 
                         except Exception as err:
                             print(str(err))
+                            print("Reopening cursor")
+                            cursor = connection.cursor()
+
             except MqttError as error:
                 print(f'Error "{error}". Reconnecting in {reconnect_interval} seconds.')
                 await asyncio.sleep(reconnect_interval)
