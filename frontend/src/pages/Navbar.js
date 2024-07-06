@@ -145,7 +145,7 @@ const Navbar = ({handleShow}) => {
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
-                        to="/zone/pool"
+                        to="/zone/outdoor"
                       >
                         <DictTag tag= {'Garden'}/>
                       </NavLink>
