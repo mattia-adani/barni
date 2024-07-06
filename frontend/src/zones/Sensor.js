@@ -103,8 +103,8 @@ const Sensor = (props) => {
 
     useEffect(() => {
         sync();
-        const intervalId = setInterval(sync, 2000);
-        return () => clearInterval(intervalId);
+    //    const intervalId = setInterval(sync, 2000);
+    //    return () => clearInterval(intervalId);
       }, []);
     
     return (
