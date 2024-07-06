@@ -99,6 +99,7 @@ if (authLoading && getToken()) {
                   <Route path="/zone/attic" element={<Zone  sidebarShow={sidebarShow} zone={'ATTIC'} />} />     
                   <Route path="/zone/patio" element={<Zone  sidebarShow={sidebarShow} zone={'PATIO'} />} />     
                   <Route path="/zone/pool" element={<Zone  sidebarShow={sidebarShow} zone={'POOL'} />} />     
+                  <Route path="/zone/outdoor" element={<Zone  sidebarShow={sidebarShow} zone={'OUTDOOR'} />} />     
                   <Route path="/zone/alarm" element={<Zone  sidebarShow={sidebarShow} zone={'ALARM'} />} />     
                   <Route path="/zone/unassigned" element={<Zone  sidebarShow={sidebarShow} zone={'UNASSIGNED'} />} />     
                   <Route path="/zone/heating" element={<Zone  sidebarShow={sidebarShow} zone={'HEATING'} />} />     
