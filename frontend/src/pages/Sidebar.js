@@ -32,6 +32,7 @@ const Sidebar = ({show, handleClose}) => {
             {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/attic")}}><DictTag tag= {'Mansarda'}/></span> )}
             {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/patio")}}><DictTag tag= {'Patio'}/></span> )}
             {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/pool")}}><DictTag tag= {'Piscina'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/outdorr")}}><DictTag tag= {'Giardino'}/></span> )}
             {auth && auth.hasOwnProperty('users') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/alarm")}}><DictTag tag= {'Allarmi'}/></span> )}
             {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/heating")}}><DictTag tag= {'Heating'}/></span> )}
             {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/cooling")}}><DictTag tag= {'Cooling'}/></span> )}

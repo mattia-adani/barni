@@ -141,6 +141,17 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
+                  {auth && auth.hasOwnProperty('test') && (
+                    <li className="nav-item">
+                      <NavLink
+                        className="nav-link"
+                        to="/zone/pool"
+                      >
+                        <DictTag tag= {'Garden'}/>
+                      </NavLink>
+                    </li>
+                  )}
+
                 {auth && auth.hasOwnProperty('test') && (
                     <li className="nav-item">
                       <NavLink
