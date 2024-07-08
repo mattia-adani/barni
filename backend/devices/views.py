@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import json
 import psycopg2 as db
+import datetime
 
 from .utils import dbconfig
 from .utils import debug
@@ -787,11 +788,14 @@ def device_temperature(request, debug=False):
                 print(body)
 
             device = body["device"]
+            now = datetime.datetime.utcnow()
+            limit = now - datetime.timedelta(days = 2)
 
             query = f"""
                 SELECT utc, temperature 
                 FROM temperature_log
                 WHERE device = '{device}'
+                AND utc > '{limit}'
                 ORDER BY utc
             """
             if debug: print(query)
