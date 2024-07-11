@@ -49,8 +49,8 @@ services:
     container_name: ${PROJECT_NAME}-backend
     mem_limit: 1024m
     cpus: 2.0
-    ports:
-      - "${BACKEND_PORT}:8000"
+#    ports:
+#      - "${BACKEND_PORT}:8000"
     volumes:
       - ./backend:/app
 #    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
@@ -216,3 +216,15 @@ services:
       - network
     depends_on:
       - db
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    env_file: .env
+    volumes:
+      - ./vault/:/data/
+    restart: unless-stopped
+#    ports:
+#      - "3100:80"
+    networks:
+      - network
