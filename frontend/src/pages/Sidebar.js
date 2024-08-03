@@ -22,20 +22,20 @@ const Sidebar = ({show, handleClose}) => {
         <Offcanvas.Body>
           <Nav className="flex-column">
             {!visible && ( <span className="nav-link" onClick ={() => {handleClose(); navigate("/login")}}><DictTag tag= {'Login'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/living")}}><DictTag tag= {'Living'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/studio")}}><DictTag tag= {'Studio'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/doors")}}><DictTag tag= {'Doors'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/mems")}}><DictTag tag= {'Camera MEMS'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/zla")}}><DictTag tag= {'Camera ZOE'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/tja")}}><DictTag tag= {'Camera Tommy'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/lsa")}}><DictTag tag= {'Camera Lulu'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/attic")}}><DictTag tag= {'Mansarda'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/patio")}}><DictTag tag= {'Patio'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/pool")}}><DictTag tag= {'Piscina'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/outdoor")}}><DictTag tag= {'Giardino'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('LIVING')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/living")}}><DictTag tag= {'Living'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('STUDIO')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/studio")}}><DictTag tag= {'Studio'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('DOORS')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/doors")}}><DictTag tag= {'Doors'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('MEMSLIVING')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/mems")}}><DictTag tag= {'Camera MEMS'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('ZLA')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/zla")}}><DictTag tag= {'Camera ZOE'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('TJA')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/tja")}}><DictTag tag= {'Camera Tommy'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('LSA')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/lsa")}}><DictTag tag= {'Camera Lulu'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('ATTIC')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/attic")}}><DictTag tag= {'Mansarda'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('PATIO')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/patio")}}><DictTag tag= {'Patio'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('POOL')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/pool")}}><DictTag tag= {'Piscina'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('GARDEN')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/outdoor")}}><DictTag tag= {'Giardino'}/></span> )}
             {auth && auth.hasOwnProperty('users') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/alarm")}}><DictTag tag= {'Allarmi'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/heating")}}><DictTag tag= {'Heating'}/></span> )}
-            {auth && auth.hasOwnProperty('test') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/cooling")}}><DictTag tag= {'Cooling'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('HEATING')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/heating")}}><DictTag tag= {'Heating'}/></span> )}
+            {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('COOLING')) && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/cooling")}}><DictTag tag= {'Cooling'}/></span> )}
             {auth && auth.hasOwnProperty('users') && (<span className="nav-link" onClick ={() => {handleClose(); navigate("/zone/unassigned")}}><DictTag tag= {'Unassigned'}/></span> )}
 
 
