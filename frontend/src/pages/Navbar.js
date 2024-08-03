@@ -43,7 +43,7 @@ const Navbar = ({handleShow}) => {
                       <DictTag tag= {'Dashboard'}/>
                     </NavLink>
                   </li>}
-                  {auth && auth.hasOwnProperty('test') && (
+                  {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('LIVING'))  && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -53,7 +53,7 @@ const Navbar = ({handleShow}) => {
                       </NavLink>
                     </li>
                   )}
-                  {auth && auth.hasOwnProperty('test') && (
+                  {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('STUDIO'))  && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -64,7 +64,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                  {auth && auth.hasOwnProperty('test') && (
+                  {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('DOORS')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -75,7 +75,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                  {auth && auth.hasOwnProperty('test') && (
+                  {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('MEMS')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -86,7 +86,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                {auth && auth.hasOwnProperty('test') && (
+                {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('ZLA')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -97,7 +97,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                {auth && auth.hasOwnProperty('test') && (
+                {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('TJA')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -108,7 +108,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                {auth && auth.hasOwnProperty('test') && (
+                {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('LSA')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -119,7 +119,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                  {auth && auth.hasOwnProperty('test') && (
+                  {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('ATTIC')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -130,7 +130,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                {auth && auth.hasOwnProperty('test') && (
+                {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('PATIO')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -141,7 +141,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                  {auth && auth.hasOwnProperty('test') && (
+                  {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('GARDEN')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -152,7 +152,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                {auth && auth.hasOwnProperty('test') && (
+                {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('POOL')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -163,7 +163,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                {auth && auth.hasOwnProperty('test') && (
+                {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('HEATING')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"
@@ -174,7 +174,7 @@ const Navbar = ({handleShow}) => {
                     </li>
                   )}
 
-                {auth && auth.hasOwnProperty('test') && (
+                {auth && auth.hasOwnProperty('test') && (auth.hasOwnProperty('all_rooms') || auth.hasOwnProperty('COOLING')) && (
                     <li className="nav-item">
                       <NavLink
                         className="nav-link"

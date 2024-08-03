@@ -34,7 +34,7 @@ const Device = props => {
 }
 
 const Group = props => {
-  console.log("PROPS", props)
+//  console.log("PROPS", props)
   const data = props.data;
   if (props.activeGroup !== '' && !(props.activeGroup === data.group)) return <></>; 
   return (
@@ -86,7 +86,7 @@ const Zone = ({sidebarShow, zone}) => {
         axios.post(`${url}${api}`, request, options).then(
           response => {
               setLoading(false);
-              console.log(response);
+//              console.log(response);
               setData(response.data.data);
               console.log(response.data.data);
           }

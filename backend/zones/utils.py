@@ -99,3 +99,10 @@ def get_auth_grant(auth_code, token, cursor):
     if not isinstance(auth, dict): return None
     if auth_code not in auth.keys(): return None    
     return auth[auth_code]
+
+def get_auths(token, cursor):
+
+    output_check = check_token(token, cursor)
+    if output_check is None: return None
+    if 'auth' not in output_check: return None
+    return  output_check['auth']
