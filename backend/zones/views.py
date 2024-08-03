@@ -8,7 +8,7 @@ import paho.mqtt.client as mqtt
 from .utils import dbconfig
 from .utils import debug
 from .utils import DateTimeEncoder
-from .utils import get_auth_grant
+from .utils import get_auth_grant, get_auths
 
 from .utils import MQTT_BROKER
 from .utils import MQTT_PORT
@@ -146,6 +146,8 @@ def devices(request, debug=False):
             raise Error("No post data")
 
         response["data"] = []
+        auths = get_auths(token, cursor)
+
         devices = []
         try:
             body = json.loads(request.body.decode("utf-8"))
@@ -153,69 +155,76 @@ def devices(request, debug=False):
             if debug:
                 print(body)
 
-            query = f"""
-                SELECT device
-                FROM devices
-                WHERE property = 'room'
-                AND value = '{ROOM}'
-            """
-
-            cursor.execute(query)
-            # columns = [description[0] for description in cursor.description]
-            result = cursor.fetchall()
-            for device, in result:
-
+            if 'all_rooms' in auths or ROOM in auths:
                 query = f"""
-                    SELECT property, value
+                    SELECT device
                     FROM devices
-                    WHERE device = '{device}'
+                    WHERE property = 'room'
+                    AND value = '{ROOM}'
                 """
+
                 cursor.execute(query)
                 # columns = [description[0] for description in cursor.description]
                 result = cursor.fetchall()
-                _device = {}
-                _device['device'] = device
-                for property, value in result:
-                    _device[property] = value
-                devices.append(_device)
+                for device, in result:
 
-            devices.sort(key = lambda x : float(x['priority']) if 'priority' in x else 0)
+                    if not ('all_devices' in auths or device in auths): continue
 
-            groups = []
-            for device in devices:
-                if 'group' in device:
-                    if device['group'] not in groups:
-                        groups.append(device['group'])
-                else:
-                    if '' not in groups:
-                        groups.append('')
+                    query = f"""
+                        SELECT property, value
+                        FROM devices
+                        WHERE device = '{device}'
+                    """
+                    cursor.execute(query)
+                    # columns = [description[0] for description in cursor.description]
+                    result = cursor.fetchall()
+                    _device = {}
+                    _device['device'] = device
+                    for property, value in result:
+                        _device[property] = value
+                    devices.append(_device)
 
-            for group in groups:
-                group_devices = []
-                if debug: print("START", group_devices)
+                devices.sort(key = lambda x : float(x['priority']) if 'priority' in x else 0)
 
+                groups = []
                 for device in devices:
                     if 'group' in device:
-                        if device['group'] == group:
-                            group_devices.append(device)
+                        if device['group'] not in groups:
+                            groups.append(device['group'])
                     else:
-                        if group == '':
-                            group_devices.append(device)
-                
-                
-                if debug: print("BEFORE", group_devices)
-                #group_devices=sorted(group_devices.copy(), key = lambda x: (int(x['priority']) if 'priority' in x else 100, x['name']))
-                group_devices.sort(key = lambda x: (float(x['priority']) if 'priority' in x else 100, x['name']))
-                if debug: print("AFTER", group_devices)
+                        if '' not in groups:
+                            groups.append('')
 
-                if group == 'Lights': priority = 1
-                elif group == 'Blinds': priority = 2
-                elif group == 'Shutters': priority = 3
-                else: priority = 100
-                response["data"].append({'group': group, 'group_priority': priority, 'devices': group_devices})
+                for group in groups:
+                    group_devices = []
+                    if debug: print("START", group_devices)
 
-            response["data"] = sorted(response["data"], key=lambda x: (x['group_priority'], x['group']))
-            response['status'] = 'OK'
+                    for device in devices:
+                        if 'group' in device:
+                            if device['group'] == group:
+                                group_devices.append(device)
+                        else:
+                            if group == '':
+                                group_devices.append(device)
+                    
+                    
+                    if debug: print("BEFORE", group_devices)
+                    #group_devices=sorted(group_devices.copy(), key = lambda x: (int(x['priority']) if 'priority' in x else 100, x['name']))
+                    group_devices.sort(key = lambda x: (float(x['priority']) if 'priority' in x else 100, x['name']))
+                    if debug: print("AFTER", group_devices)
+
+                    if group == 'Lights': priority = 1
+                    elif group == 'Blinds': priority = 2
+                    elif group == 'Shutters': priority = 3
+                    else: priority = 100
+                    response["data"].append({'group': group, 'group_priority': priority, 'devices': group_devices})
+
+                response["data"] = sorted(response["data"], key=lambda x: (x['group_priority'], x['group']))
+                response['status'] = 'OK'
+            else:
+                response['status'] = 'KO'
+                response['message'] = 'No area access'
+
 
         except Exception as err:
             response["error"] = str(err)
