@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-import json
+import json, datetime
 import psycopg2 as db
 import paho.mqtt.client as mqtt
 
@@ -85,6 +85,26 @@ def test(request, debug=False):
             client.connect(MQTT_BROKER, MQTT_PORT, 60)
             client.publish(MQTT_TOPIC_FOR_ACTION, mqtt_message)
             client.disconnect()
+
+            
+            dt = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+            username = body['username']
+            device = body['device']
+            action = body['action']
+
+            try:
+                query = f"""
+                    INSERT INTO action_log 
+                    (utc, username, device, action)
+                    VALUES
+                    ('{dt}', '{username}', '{device}', '{action}')
+                """
+
+                cursor.execute(query)
+                connection.commit()
+            except Exception as err:
+                if debug:
+                    print(str(err))
 
             response['status'] = 'OK'
 

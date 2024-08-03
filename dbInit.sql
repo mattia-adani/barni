@@ -67,6 +67,14 @@ CREATE TABLE colors (
     hue FLOAT
 );
 
+CREATE TABLE action_log (
+    utc TIMESTAMP,
+    device VARCHAR(48),
+    username VARCHAR(24),
+    action VARCHAR(128),
+    PRIMARY KEY (device, utc, username)
+);
+
 CREATE TABLE temperature_log (
     utc TIMESTAMP,
     device VARCHAR(48),
