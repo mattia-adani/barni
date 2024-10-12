@@ -8,6 +8,7 @@ import Cover from './Cover';
 import Sensor from './Sensor';
 import CoolingControl from './CoolingControl';
 import ClimateControl from './ClimateControl';
+import HeatingControl from './HeatingControl';
 
 const Device = props => {
 
@@ -25,6 +26,7 @@ const Device = props => {
   else if (data.type === 'Temperature') content = <Sensor data = {data}/>
   else if (data.type === 'AirCondControl') content = <CoolingControl data = {data}/>
   else if (data.type === 'Cooling') content = <ClimateControl data = {data}/>
+  else if (data.type === 'Heating') content = <HeatingControl data = {data}/>
 
   return <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-2 mb-2">
