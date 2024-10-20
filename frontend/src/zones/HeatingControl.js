@@ -17,7 +17,7 @@ const HeatingControl = ({ data }) => {
     const [error, setError] = useState(null);
     const [enabled, setEnabled] = useState(parseInt(data.cooling_enabled));
 
-    const iconOn = useMemo(() => <LightModeIcon style={{ color: 'white' }} />, []);
+    const iconOn = useMemo(() => <LightModeIcon style={{ color: 'orange' }} />, []);
     const iconOff = useMemo(() => <PowerSettingsNewIcon style={{ color: 'white' }} />, []);
     const thermostatIcon = useMemo(() => <DeviceThermostatIcon style={{ color: 'white' }} />, []);
 
@@ -98,7 +98,7 @@ const HeatingControl = ({ data }) => {
         const api = '/devices/property/update/';
         const token = getToken();
         const user = getUser();
-        console.log(`${backendUrl}${api}`)
+//        console.log(`${backendUrl}${api}`)
         setLoading(true);
         axios
             .post(
@@ -141,8 +141,8 @@ const HeatingControl = ({ data }) => {
         const api = '/devices/property/update/';
         const token = getToken();
         const user = getUser();
-        console.log(`${backendUrl}${api}`);
-        console.log("new value", value) 
+//        console.log(`${backendUrl}${api}`);
+//        console.log("new value", value) 
         setEnabled(value)
 
         setLoading(true);
@@ -234,7 +234,7 @@ const HeatingControl = ({ data }) => {
             </p>
             {error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
             <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-                {state === 'off' ? (
+                {data.enabled === '1' ? (
                     <div className="btn m-1" onClick={() => handleClick('on')}>
                         {iconOn}
                     </div>
@@ -249,7 +249,7 @@ const HeatingControl = ({ data }) => {
                 {thermostatIcon} <span>{temperature}</span>
             </p>
             </div>
-            {['off', 'on'].includes(state) && (
+            {/*['off', 'on'].includes(state) && (
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                     <FormControlLabel 
                     control={<Switch 
@@ -260,7 +260,7 @@ const HeatingControl = ({ data }) => {
                         size = 'large'/>} 
                     label="Enabled" />
                 </Box>
-            )}
+            )*/}
 
             {['off', 'on'].includes(state) && (
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
