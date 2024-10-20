@@ -143,7 +143,7 @@ def main():
     if enable is None or not isinstance(enable, dict): return
     if 'data' not in enable: return
     try:
-        if not bool(int(enable)): return
+        if not bool(int(enable['data'])): return
     except Exception as err:
         print(str(err))
         return
