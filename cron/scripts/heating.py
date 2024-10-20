@@ -15,6 +15,38 @@ MQTT_PORT=int(os.environ.get('MQTT_PORT'))
 MQTT_TOPIC_FOR_ACTION=os.environ.get('MQTT_TOPIC_FOR_ACTION')
 MQTT_TOPIC_FOR_SYNC=os.environ.get('MQTT_TOPIC_FOR_SYNC')
 
+def variable(device, property='value', debug=False):
+    response = {}
+
+    try:
+        connection = db.connect(**dbconfig)
+        cursor = connection.cursor()
+
+        query = f"""
+            select value from devices 
+            where property = '{property}' and device = {repr(device)}
+        """
+        cursor.execute(query)
+        result = cursor.fetchone()
+
+        if not result: return response
+
+        value, = result
+        response['data'] = value
+
+        response['status'] = 'OK'
+        return response
+        
+    except Exception as err:
+        response["status"] = "Error"
+        response["message"] = str(err)
+
+    finally:
+        if debug:
+            print(response)
+        cursor.close()
+        connection.close()
+
 
 def devices(debug = True):
 
@@ -106,6 +138,16 @@ def update(device, debug=False):
     client.disconnect()
 
 def main(debug=False):
+
+
+    enable = variable('heating_control')
+    if enable is None or not isinstance(enable, dict): return
+    if 'data' not in enable: return
+    try:
+        if not bool(int(enable)): return
+    except Exception as err:
+        print(str(err))
+        return
 
     d = devices()
 
