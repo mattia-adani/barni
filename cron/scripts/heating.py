@@ -87,7 +87,7 @@ def device_info(device_id, debug = True):
 def switch(device, action):
     payload = {'device': f"{device}_switch", 'action': action, 'value': action}
     mqtt_message = json.dumps(payload)  # Message to publish
-    print(MQTT_TOPIC_FOR_ACTION, payload)
+    print("SWITCHING", MQTT_TOPIC_FOR_ACTION, payload)
     client = mqtt.Client()
     client.connect(MQTT_BROKER, MQTT_PORT, 60)
     client.publish(MQTT_TOPIC_FOR_ACTION, mqtt_message)
@@ -105,35 +105,34 @@ def update(device, debug=False):
  
     client.disconnect()
 
-def main(debug=True):
+def main(debug=False):
 
     d = devices()
 
     for device in d['data']: update(device, debug=debug)
 
-    time.sleep(5)
+    time.sleep(0)
 
     for device in d['data']:
         props = device_info(device)['data']
         if debug: print(props)
-        continue
         temperature = float(props['temperature'].split(' ')[0])
         target_temperature = float(props['target_temperature'])
         try:
-            cooling_enabled = bool(int(props['cooling_enabled']))
+            enabled = bool(int(props['enabled']))
         except Exception as err:
             print(str(err)) 
-            cooling_enabled = False
+            enabled = False
 
-        if not cooling_enabled: continue
+        if not enabled: action = 'off'
 
-        if temperature > target_temperature:
+        elif temperature < target_temperature:
            action = 'on'
 
         else:
             action = 'off'
         
         switch(device, action)
-        print(device, cooling_enabled, temperature, target_temperature, action)
+        print(device, enabled, temperature, target_temperature, action)
 
 main()
