@@ -12,6 +12,7 @@
 # Air conditioning control every minute
 * * * * * python3 /scripts/air_conditioning.py
 * * * * * python3 /scripts/heating.py
+* * * * * python3 /scripts/suntime.py
 
 # Temperature log every 5 minutes
 */5 * * * * python3 /scripts/temperature_log.py
