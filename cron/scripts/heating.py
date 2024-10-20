@@ -16,7 +16,7 @@ MQTT_TOPIC_FOR_ACTION=os.environ.get('MQTT_TOPIC_FOR_ACTION')
 MQTT_TOPIC_FOR_SYNC=os.environ.get('MQTT_TOPIC_FOR_SYNC')
 
 
-def devices(debug = False):
+def devices(debug = True):
 
     response = {}
 
@@ -26,8 +26,10 @@ def devices(debug = False):
 
         query = """
             select device from devices 
-            where property = 'type' and (value = 'AirCondControl' or value = 'Cooling')
+            where property = 'type' and (value = 'Heating')
         """
+        if debug: print(query)
+
         cursor.execute(query)
         result = cursor.fetchall()
 
@@ -91,30 +93,30 @@ def switch(device, action):
     client.publish(MQTT_TOPIC_FOR_ACTION, mqtt_message)
     client.disconnect()
 
-def update(device):
+def update(device, debug=False):
 
-    payload = {'device': f"{device}", 'action': 'sync', 'type': 'AirCondControl'}
+    payload = {'device': f"{device}", 'action': 'sync', 'type': 'Heating'}
     mqtt_message = json.dumps(payload)  # Message to publish
 
-#    print(MQTT_TOPIC_FOR_ACTION, payload)
+    if debug: print(MQTT_TOPIC_FOR_ACTION, payload)
     client = mqtt.Client()
     client.connect(MQTT_BROKER, MQTT_PORT, 60)
     client.publish(MQTT_TOPIC_FOR_ACTION, mqtt_message)
  
     client.disconnect()
 
-def main():
-
-    return
+def main(debug=True):
 
     d = devices()
-    for device in d['data']: update(device)
+
+    for device in d['data']: update(device, debug=debug)
 
     time.sleep(5)
 
     for device in d['data']:
         props = device_info(device)['data']
-#        print(props)
+        if debug: print(props)
+        continue
         temperature = float(props['temperature'].split(' ')[0])
         target_temperature = float(props['target_temperature'])
         try:
