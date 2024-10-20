@@ -152,7 +152,7 @@ const HeatingControl = ({ data }) => {
                 {
                     username: user.username,
                     device: data.device,
-                    property: 'cooling_enabled',
+                    property: 'enabled',
                     target_field: 'value',
                     target_value: value ? 1 : 0,
                 },
@@ -266,8 +266,8 @@ const HeatingControl = ({ data }) => {
                 <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                     <Slider
                         value={targetTemperature}
-                        min={23}
-                        max={28}
+                        min={5}
+                        max={23}
                         step={0.5}
                         marks={marks}
                         aria-label="Target Temperature"
