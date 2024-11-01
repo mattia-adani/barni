@@ -37,8 +37,8 @@ def main(debug=False):
     milan_tz = pytz.timezone('Europe/Rome')
     
     sunrise, sunset = get_sun_times(milan_lat, milan_lng)
-    stop = sunrise - timedelta(hours=1)
-    start = sunset + timedelta(hours=1)
+    stop = sunrise - timedelta(hours = 0)
+    start = sunset + timedelta(hours = 0)
 
     print(f"Sunrise in Milan (local time): {sunrise.strftime('%Y-%m-%d %H:%M:%S %Z')}")
     print(f"Sunset in Milan (local time): {sunset.strftime('%Y-%m-%d %H:%M:%S %Z')}")
