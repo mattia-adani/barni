@@ -38,7 +38,7 @@ def main(debug=False):
     
     sunrise, sunset = get_sun_times(milan_lat, milan_lng)
     stop = sunrise - timedelta(hours = 0)
-    start = sunset + timedelta(hours = 0.5)
+    start = sunset + timedelta(hours = 0.25)
 
     print(f"Sunrise in Milan (local time): {sunrise.strftime('%Y-%m-%d %H:%M:%S %Z')}")
     print(f"Sunset in Milan (local time): {sunset.strftime('%Y-%m-%d %H:%M:%S %Z')}")
